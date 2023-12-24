@@ -1,0 +1,1 @@
+Graduation cap stock photo by OpenClipart-Vectors via Pixabay.com

@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Terms App</string>
+    <string name="course">Course</string>
+    <string name="Terms" />
+    <string name="Courses" />
+    <string name="assessments">Assessments</string>
+    <string name="Assessments" />
+</resources>
