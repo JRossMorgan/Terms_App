@@ -1,19 +1,26 @@
 package entites;
 
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
+@Entity (tableName = "assessments")
 public class AssessmentClass {
+    @PrimaryKey (autoGenerate = true)
     private int assessmentId;
     private String title;
     private String type;
     private LocalDateTime endDate;
+    private int courseId;
 
-    public AssessmentClass(int assessmentId, String title, String type, LocalDateTime endDate) {
+    public AssessmentClass(int assessmentId, String title, String type, LocalDateTime endDate, int courseId) {
         this.assessmentId = assessmentId;
         this.title = title;
         this.type = type;
         this.endDate = endDate;
+        this.courseId = courseId;
     }
 
     public int getAssessmentId() {
@@ -46,5 +53,13 @@ public class AssessmentClass {
 
     public void setEndDate(LocalDateTime endDate) {
         this.endDate = endDate;
+    }
+
+    public int getCourseId() {
+        return courseId;
+    }
+
+    public void setCourseId(int courseId) {
+        this.courseId = courseId;
     }
 }

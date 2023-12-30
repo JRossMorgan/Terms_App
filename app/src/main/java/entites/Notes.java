@@ -1,16 +1,31 @@
 package entites;
 
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+
 import java.time.LocalDateTime;
 
+@Entity (tableName = "notes")
 public class Notes {
+    @PrimaryKey (autoGenerate = true)
     private int noteId;
     private String body;
     private LocalDateTime alertTime;
+    private int courseId;
 
-    public Notes(int noteId, String body, LocalDateTime alertTime) {
+    public Notes(int noteId, String body, LocalDateTime alertTime, int courseId){
         this.noteId = noteId;
         this.body = body;
         this.alertTime = alertTime;
+        this.courseId = courseId;
+    }
+
+    public int getCourseId() {
+        return courseId;
+    }
+
+    public void setCourseId(int courseId) {
+        this.courseId = courseId;
     }
 
     public int getNoteId() {

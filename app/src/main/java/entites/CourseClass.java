@@ -1,9 +1,14 @@
 package entites;
 
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+
 import java.time.LocalDate;
 import java.util.ArrayList;
 
+@Entity (tableName = "courses")
 public class CourseClass {
+    @PrimaryKey (autoGenerate = true)
     private int courseId;
     private String title;
     private LocalDate start;
@@ -12,8 +17,9 @@ public class CourseClass {
     private String instructorName;
     private String instructorNumber;
     private String instructorEmail;
+    private int termId;
 
-    public CourseClass(int courseId, String title, LocalDate start, LocalDate end, String status, String instructorName, String instructorNumber, String instructorEmail) {
+    public CourseClass(int courseId, String title, LocalDate start, LocalDate end, String status, String instructorName, String instructorNumber, String instructorEmail, int termId) {
         this.courseId = courseId;
         this.title = title;
         this.start = start;
@@ -22,6 +28,7 @@ public class CourseClass {
         this.instructorName = instructorName;
         this.instructorNumber = instructorNumber;
         this.instructorEmail = instructorEmail;
+        this.termId = termId;
     }
 
     public int getCourseId() {
@@ -87,6 +94,15 @@ public class CourseClass {
     public void setInstructorEmail(String instructorEmail) {
         this.instructorEmail = instructorEmail;
     }
+
+    public int getTermId() {
+        return termId;
+    }
+
+    public void setTermId(int termId) {
+        this.termId = termId;
+    }
+
     public ArrayList<AssessmentClass> associatedAssessment;
     public ArrayList<Notes> associatesNotes;
 }

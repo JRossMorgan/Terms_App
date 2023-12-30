@@ -1,10 +1,14 @@
 package entites;
 
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+
 import java.time.LocalDate;
 import java.util.ArrayList;
 
-//@Entity (tableName = "terms")
+@Entity(tableName = "terms")
 public class TermClass {
+    @PrimaryKey (autoGenerate = true)
     private int termId;
     private LocalDate start;
     private LocalDate  end;
