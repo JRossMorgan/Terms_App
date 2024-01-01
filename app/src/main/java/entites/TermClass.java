@@ -10,13 +10,23 @@ import java.util.ArrayList;
 public class TermClass {
     @PrimaryKey (autoGenerate = true)
     private int termId;
+    private String termTitle;
     private LocalDate start;
     private LocalDate  end;
 
-    public TermClass(int termId, LocalDate start, LocalDate end) {
+    public TermClass(int termId, String termTitle,LocalDate start, LocalDate end) {
         this.termId = termId;
+        this.termTitle = termTitle;
         this.start = start;
         this.end = end;
+    }
+
+    public String getTermTitle() {
+        return termTitle;
+    }
+
+    public void setTermTitle(String termTitle) {
+        this.termTitle = termTitle;
     }
 
     public int getTermId() {

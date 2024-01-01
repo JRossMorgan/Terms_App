@@ -6,4 +6,24 @@
     android:layout_height="match_parent"
     tools:context=".Pages.Terms">
 
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/addTerms"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:clickable="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:srcCompat="@android:drawable/ic_menu_add"
+        android:contentDescription="@string/button_that_navigates_to_the_add_terms_page" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/TermsView"
+        android:layout_width="409dp"
+        android:layout_height="665dp"
+        tools:layout_editor_absoluteX="1dp"
+        tools:layout_editor_absoluteY="1dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

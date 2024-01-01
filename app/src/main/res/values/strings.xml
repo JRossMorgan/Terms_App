@@ -5,4 +5,7 @@
     <string name="Courses" />
     <string name="assessments">Assessments</string>
     <string name="Assessments" />
+    <string name="button_that_navigates_to_the_add_terms_page">Button that navigates to the Add Terms page.</string>
+    <string name="button_that_navigates_to_the_add_courses_page">button_that_navigates_to_the_add_courses_page</string>
+    <string name="button_that_navigates_to_the_add_assessments_page">button_that_navigates_to_the_add_assessments_page</string>
 </resources>
