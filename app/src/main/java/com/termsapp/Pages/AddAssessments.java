@@ -14,6 +14,7 @@ import java.time.LocalDateTime;
 import Database.Repository;
 
 public class AddAssessments extends AppCompatActivity {
+    int id;
     String title;
     LocalDateTime end;
     String type;
@@ -27,6 +28,7 @@ public class AddAssessments extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_assessments);
         repository = new Repository(getApplication());
+        id = getIntent().getIntExtra("Assessment ID", 1);
         title = getIntent().getStringExtra("Title");
         assessmentTitle = findViewById(R.id.assessmentTitle);
         assessmentTitle.setText(title);

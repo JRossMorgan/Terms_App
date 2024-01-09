@@ -15,17 +15,17 @@
         <activity
             android:name=".Pages.AddAssessments"
             android:exported="false"
-            android:label="Add Assessments"
+            android:label="Add/Update Assessments"
             android:parentActivityName=".Pages.Assessments" />
         <activity
             android:name=".Pages.AddTerms"
             android:exported="false"
-            android:label="Add Terms"
+            android:label="Add/Update Terms"
             android:parentActivityName=".Pages.Terms" />
         <activity
             android:name=".Pages.AddCourses"
             android:exported="false"
-            android:label="Add Courses"
+            android:label="Add/Update Courses"
             android:parentActivityName=".Pages.Courses" />
         <activity
             android:name=".Pages.Assessments"
