@@ -105,4 +105,8 @@ public class CourseClass {
 
     public ArrayList<AssessmentClass> associatedAssessment;
     public ArrayList<Notes> associatesNotes;
+    @Override
+    public String toString(){
+        return title;
+    }
 }

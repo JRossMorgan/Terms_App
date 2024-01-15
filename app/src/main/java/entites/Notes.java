@@ -51,4 +51,8 @@ public class Notes {
     public void setAlertTime(LocalDateTime alertTime) {
         this.alertTime = alertTime;
     }
+    @Override
+    public String toString(){
+        return body;
+    }
 }

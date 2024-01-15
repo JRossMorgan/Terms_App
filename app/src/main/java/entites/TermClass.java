@@ -53,4 +53,8 @@ public class TermClass {
         this.end = end;
     }
     public ArrayList<CourseClass> associatedCourses;
+    @Override
+    public String toString(){
+        return termTitle;
+    }
 }
