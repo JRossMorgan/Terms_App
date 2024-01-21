@@ -2,14 +2,21 @@ package com.termsapp.Pages;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.DatePickerDialog;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
 import com.termsapp.R;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.util.Calendar;
+import java.util.Locale;
 
 import Database.Repository;
 
@@ -18,9 +25,9 @@ public class AddCourses extends AppCompatActivity {
     String title;
     TextView courseTitle;
     LocalDate start;
-    EditText startDate;
+    TextView startDate;
     LocalDate end;
-    EditText endDate;
+    TextView endDate;
     String status;
     RadioButton inProgress;
     RadioButton complete;
@@ -33,6 +40,10 @@ public class AddCourses extends AppCompatActivity {
     String instructorEmail;
     EditText email;
     Repository repository;
+    DatePickerDialog.OnDateSetListener starting;
+    DatePickerDialog.OnDateSetListener ending;
+    final Calendar startCalendar = Calendar.getInstance();
+    final Calendar endCalendar = Calendar.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +60,58 @@ public class AddCourses extends AppCompatActivity {
         end = LocalDate.parse(getIntent().getStringExtra("End Date"));
         endDate = findViewById(R.id.endDate);
         endDate.setText(end.toString());
+        String dateFormat = "MM/dd/yyyy";
+        SimpleDateFormat sdf = new SimpleDateFormat(dateFormat, Locale.US);
+        starting = new DatePickerDialog.OnDateSetListener(){
+
+            @Override
+            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                startCalendar.set(Calendar.YEAR, year);
+                startCalendar.set(Calendar.MONTH, monthOfYear);
+                startCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+            }
+        };
+        ending = new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                endCalendar.set(Calendar.YEAR, year);
+                endCalendar.set(Calendar.MONTH, month);
+                endCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+            }
+        };
+        startDate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String info = startDate.getText().toString();
+                if(info.equals("")){
+                    info = "01/01/2024";
+                }
+                try{
+                    startCalendar.setTime(sdf.parse(info));
+                }
+                catch (ParseException e){
+                    e.printStackTrace();
+                }
+                new DatePickerDialog(AddCourses.this, starting, startCalendar.get(Calendar.YEAR), startCalendar.get(Calendar.MONTH), startCalendar.get(Calendar.DAY_OF_MONTH)).show();
+            }
+        });
+        endDate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String info = endDate.getText().toString();
+                if(info.equals("")){
+                   info = "01/01/2024";
+                }
+                try{
+                    endCalendar.setTime(sdf.parse(info));
+                }
+                catch (ParseException e){
+                    e.printStackTrace();
+                }
+                new DatePickerDialog(AddCourses.this, ending, endCalendar.get(Calendar.YEAR), endCalendar.get(Calendar.MONTH), endCalendar.get(Calendar.DAY_OF_MONTH)).show();
+            }
+        });
+
         inProgress = findViewById(R.id.inProgress);
         complete = findViewById(R.id.completed);
         drop = findViewById(R.id.dropped);

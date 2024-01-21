@@ -39,6 +39,16 @@ public class Terms extends AppCompatActivity {
         rv.setAdapter(termsAdapter);
         rv.setLayoutManager(new LinearLayoutManager(this));
         termsAdapter.setTermClassList(allTerms);
-
+    }
+    @Override
+    protected void onResume(){
+        super.onResume();
+        repository = new Repository(getApplication());
+        List<TermClass> allTerms = repository.getAllTerms();
+        RecyclerView rv = findViewById(R.id.TermsView);
+        final TermsAdapter termsAdapter = new TermsAdapter(this);
+        rv.setAdapter(termsAdapter);
+        rv.setLayoutManager(new LinearLayoutManager(this));
+        termsAdapter.setTermClassList(allTerms);
     }
 }
