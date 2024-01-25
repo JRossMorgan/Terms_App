@@ -33,6 +33,11 @@ public class AddAssessments extends AppCompatActivity {
     DatePickerDialog.OnDateSetListener date;
     final Calendar calendar = Calendar.getInstance();
 
+    private void updateDate(){
+        String dateFormat = "MM/dd/yyyy";
+        SimpleDateFormat sdf = new SimpleDateFormat(dateFormat, Locale.US);
+        assessmentDate.setText(sdf.format(calendar.getTime()));
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,6 +67,7 @@ public class AddAssessments extends AppCompatActivity {
                 calendar.set(Calendar.YEAR, year);
                 calendar.set(Calendar.MONTH, month);
                 calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+                updateDate();
             }
         };
 

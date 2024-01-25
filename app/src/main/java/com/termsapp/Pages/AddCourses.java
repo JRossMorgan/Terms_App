@@ -45,6 +45,16 @@ public class AddCourses extends AppCompatActivity {
     final Calendar startCalendar = Calendar.getInstance();
     final Calendar endCalendar = Calendar.getInstance();
 
+    private void updateStart(){
+        String format = "MM/dd/yyyy";
+        SimpleDateFormat sdf = new SimpleDateFormat(format, Locale.US);
+        startDate.setText(sdf.format(startCalendar.getTime()));
+    }
+    private void updateEnd(){
+        String format = "MM/dd/yyyy";
+        SimpleDateFormat sdf = new SimpleDateFormat(format, Locale.US);
+        endDate.setText(sdf.format(endCalendar.getTime()));
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -69,6 +79,7 @@ public class AddCourses extends AppCompatActivity {
                 startCalendar.set(Calendar.YEAR, year);
                 startCalendar.set(Calendar.MONTH, monthOfYear);
                 startCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+                updateStart();
             }
         };
         ending = new DatePickerDialog.OnDateSetListener() {
@@ -77,6 +88,7 @@ public class AddCourses extends AppCompatActivity {
                 endCalendar.set(Calendar.YEAR, year);
                 endCalendar.set(Calendar.MONTH, month);
                 endCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+                updateEnd();
             }
         };
         startDate.setOnClickListener(new View.OnClickListener() {

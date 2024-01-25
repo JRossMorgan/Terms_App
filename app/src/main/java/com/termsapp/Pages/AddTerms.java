@@ -36,6 +36,17 @@ public class AddTerms extends AppCompatActivity {
     DatePickerDialog.OnDateSetListener termE;
     final Calendar termStart = Calendar.getInstance();
     final Calendar termEnd = Calendar.getInstance();
+
+    private void updateStart(){
+        String format = "MM/dd/yyyy";
+        SimpleDateFormat sdf = new SimpleDateFormat(format, Locale.US);
+        startBox.setText(sdf.format(termStart.getTime()));
+    }
+    private void updateEnd(){
+        String format = "MM/dd/yyyy";
+        SimpleDateFormat sdf = new SimpleDateFormat(format, Locale.US);
+        endBox.setText(sdf.format(termEnd.getTime()));
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,6 +71,7 @@ public class AddTerms extends AppCompatActivity {
                 termStart.set(Calendar.YEAR, year);
                 termStart.set(Calendar.MONTH, month);
                 termStart.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+                updateStart();
             }
         };
         termE = new DatePickerDialog.OnDateSetListener() {
@@ -68,6 +80,7 @@ public class AddTerms extends AppCompatActivity {
                 termEnd.set(Calendar.YEAR, year);
                 termEnd.set(Calendar.MONTH, month);
                 termEnd.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+                updateEnd();
             }
         };
         startBox.setOnClickListener(new View.OnClickListener() {
