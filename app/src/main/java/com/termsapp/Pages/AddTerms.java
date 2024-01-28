@@ -5,8 +5,10 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.DatePickerDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -36,6 +38,9 @@ public class AddTerms extends AppCompatActivity {
     DatePickerDialog.OnDateSetListener termE;
     final Calendar termStart = Calendar.getInstance();
     final Calendar termEnd = Calendar.getInstance();
+    Button addCourse;
+    Button save;
+    Button delete;
 
     private void updateStart(){
         String format = "MM/dd/yyyy";
@@ -127,6 +132,16 @@ public class AddTerms extends AppCompatActivity {
             }
         }
         courseAdapter.setCourseClassList(termCourses);
+
+        addCourse = findViewById(R.id.addCourse);
+        addCourse.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(AddTerms.this, AddCourses.class);
+                intent.putExtra("Term ID", id);
+                startActivity(intent);
+            }
+        });
 
     }
 }

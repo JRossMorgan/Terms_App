@@ -30,6 +30,7 @@ public class AddAssessments extends AppCompatActivity {
     RadioButton objective;
     RadioButton performance;
     Repository repository;
+    int courseId;
     DatePickerDialog.OnDateSetListener date;
     final Calendar calendar = Calendar.getInstance();
 
@@ -58,6 +59,7 @@ public class AddAssessments extends AppCompatActivity {
         end = LocalDateTime.parse(getIntent().getStringExtra("End Date"));
         assessmentDate = findViewById(R.id.dateView);
         assessmentDate.setText(end.toString());
+        courseId = getIntent().getIntExtra("Course ID", 0);
 
         String dateFormat = "MM/dd/yyyy";
         SimpleDateFormat sdf = new SimpleDateFormat(dateFormat, Locale.US);

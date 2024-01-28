@@ -39,6 +39,7 @@ public class AddCourses extends AppCompatActivity {
     EditText phone;
     String instructorEmail;
     EditText email;
+    int termId;
     Repository repository;
     DatePickerDialog.OnDateSetListener starting;
     DatePickerDialog.OnDateSetListener ending;
@@ -70,6 +71,7 @@ public class AddCourses extends AppCompatActivity {
         end = LocalDate.parse(getIntent().getStringExtra("End Date"));
         endDate = findViewById(R.id.endDate);
         endDate.setText(end.toString());
+        termId = getIntent().getIntExtra("Term ID", 0);
         String dateFormat = "MM/dd/yyyy";
         SimpleDateFormat sdf = new SimpleDateFormat(dateFormat, Locale.US);
         starting = new DatePickerDialog.OnDateSetListener(){
