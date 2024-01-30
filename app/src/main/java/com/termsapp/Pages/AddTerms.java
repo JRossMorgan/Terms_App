@@ -4,7 +4,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.AlarmManager;
 import android.app.DatePickerDialog;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -20,6 +23,7 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.Locale;
 
 import Database.Repository;
@@ -142,6 +146,26 @@ public class AddTerms extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
+        String getAlertDate = startBox.getText().toString();
+        String startFormat = "MM/dd/yyyy";
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(startFormat, Locale.US);
+        Date startAlert = null;
+        try{
+            startAlert = simpleDateFormat.parse(getAlertDate);
+        }
+        catch(ParseException e){
+            e.printStackTrace();
+        }
+        try{
+            long startTrigger = startAlert.getTime();
+            Intent intent = new Intent(AddTerms.this, TermStartReceiver.class);
+            intent.putExtra("Term Start", termTitle.getText() + " has started.");
+            PendingIntent sendStart = PendingIntent.getBroadcast(AddTerms.this, ++MainActivity.alertCount, intent, PendingIntent.FLAG_IMMUTABLE);
+            AlarmManager startManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+            startManager.set(AlarmManager.RTC_WAKEUP, startTrigger, sendStart);
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
     }
 }

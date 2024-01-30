@@ -10,7 +10,7 @@ import android.widget.Button;
 import com.termsapp.R;
 
 public class MainActivity extends AppCompatActivity {
-
+    public static int alertCount;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
