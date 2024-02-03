@@ -2,7 +2,11 @@ package com.termsapp.Pages;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.AlarmManager;
 import android.app.DatePickerDialog;
+import android.app.PendingIntent;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.DatePicker;
@@ -16,6 +20,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.Locale;
 
 import Database.Repository;
@@ -90,5 +95,26 @@ public class AddAssessments extends AppCompatActivity {
             }
         });
 
+        String alertDate = assessmentDate.getText().toString();
+        String format = "MM/dd/yyyy";
+        SimpleDateFormat alertFormat = new SimpleDateFormat(format, Locale.US);
+        Date alert = null;
+        try{
+            alert = alertFormat.parse(alertDate);
+        }
+        catch (ParseException parseException){
+            parseException.printStackTrace();
+        }
+        try{
+            long assessmentTrigger = alert.getTime();
+            Intent intent = new Intent(AddAssessments.this, AssessmentReceiver.class);
+            intent.putExtra("Assessment Alert", assessmentTitle.getText() + " has begun.");
+            PendingIntent pendingIntent = PendingIntent.getBroadcast(AddAssessments.this, ++MainActivity.alertCount, intent, PendingIntent.FLAG_IMMUTABLE);
+            AlarmManager alarm = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+            alarm.set(AlarmManager.RTC_WAKEUP, assessmentTrigger, pendingIntent);
+        }
+        catch (Exception what){
+            what.printStackTrace();
+        }
     }
 }

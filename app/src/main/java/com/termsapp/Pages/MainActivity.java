@@ -11,6 +11,7 @@ import com.termsapp.R;
 
 public class MainActivity extends AppCompatActivity {
     public static int alertCount;
+    public static int alertIds;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

@@ -2,7 +2,11 @@ package com.termsapp.Pages;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.AlarmManager;
 import android.app.DatePickerDialog;
+import android.app.PendingIntent;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.DatePicker;
@@ -16,6 +20,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.Locale;
 
 import Database.Repository;
@@ -152,5 +157,47 @@ public class AddCourses extends AppCompatActivity {
         email = findViewById(R.id.editTextEmailAddress);
         email.setText(instructorEmail);
 
+        String startCourse = startDate.getText().toString();
+        String startFormat = "MM/dd/yyyy";
+        SimpleDateFormat starting = new SimpleDateFormat(startFormat, Locale.US);
+        Date startAlert = null;
+        try{
+            startAlert = starting.parse(startCourse);
+        }
+        catch (ParseException e){
+            e.printStackTrace();
+        }
+        try{
+            long startTrigger = startAlert.getTime();
+            Intent startIntent = new Intent(AddCourses.this, CourseStart.class);
+            startIntent.putExtra("Start Course", courseTitle.getText() + " has started");
+            PendingIntent sendStart = PendingIntent.getBroadcast(AddCourses.this, ++MainActivity.alertCount, startIntent, PendingIntent.FLAG_IMMUTABLE);
+            AlarmManager startAlarm = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+            startAlarm.set(AlarmManager.RTC_WAKEUP, startTrigger, sendStart);
+        }
+        catch (Exception exception){
+            exception.printStackTrace();
+        }
+        String endCourse = endDate.getText().toString();
+        String endFormat = "MM/dd/yyyy";
+        SimpleDateFormat ending = new SimpleDateFormat(endFormat, Locale.US);
+        Date endAlert = null;
+        try{
+            endAlert = ending.parse(endCourse);
+        }
+        catch (ParseException parseException){
+            parseException.printStackTrace();
+        }
+        try{
+            long endTrigger = endAlert.getTime();
+            Intent endIntent = new Intent(AddCourses.this, CourseEnd.class);
+            endIntent.putExtra("End Course", courseTitle.getText() + " has ended.");
+            PendingIntent sendEnd = PendingIntent.getBroadcast(AddCourses.this, ++MainActivity.alertCount, endIntent, PendingIntent.FLAG_IMMUTABLE);
+            AlarmManager endAlarm = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+            endAlarm.set(AlarmManager.RTC_WAKEUP, endTrigger, sendEnd);
+        }
+        catch (Exception what){
+            what.printStackTrace();
+        }
     }
 }

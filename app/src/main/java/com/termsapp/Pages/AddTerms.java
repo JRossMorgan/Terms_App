@@ -167,5 +167,28 @@ public class AddTerms extends AppCompatActivity {
         catch (Exception e){
             e.printStackTrace();
         }
+        String endingAlert = endBox.getText().toString();
+        String endFormat = "MM/dd/yyyy";
+        SimpleDateFormat endingFormat = new SimpleDateFormat(endFormat, Locale.US);
+        Date endAlert = null;
+        try{
+            endAlert = endingFormat.parse(endingAlert);
+        }
+        catch (ParseException exception){
+            exception.printStackTrace();
+        }
+        try{
+            long endTrigger = endAlert.getTime();
+            Intent endIntent = new Intent(AddTerms.this, TermEndReceiver.class);
+            endIntent.putExtra("Term End", termTitle.getText() + " has ended.");
+            PendingIntent sendEnd = PendingIntent.getBroadcast(AddTerms.this, ++MainActivity.alertCount, endIntent, PendingIntent.FLAG_IMMUTABLE);
+            AlarmManager endAlarm = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+            endAlarm.set(AlarmManager.RTC_WAKEUP, endTrigger, sendEnd);
+
+        }
+        catch (Exception what){
+            what.printStackTrace();
+        }
+
     }
 }
