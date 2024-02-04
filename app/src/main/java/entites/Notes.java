@@ -10,13 +10,11 @@ public class Notes {
     @PrimaryKey (autoGenerate = true)
     private int noteId;
     private String body;
-    private LocalDateTime alertTime;
     private int courseId;
 
-    public Notes(int noteId, String body, LocalDateTime alertTime, int courseId){
+    public Notes(int noteId, String body, int courseId){
         this.noteId = noteId;
         this.body = body;
-        this.alertTime = alertTime;
         this.courseId = courseId;
     }
 
@@ -44,13 +42,6 @@ public class Notes {
         this.body = body;
     }
 
-    public LocalDateTime getAlertTime() {
-        return alertTime;
-    }
-
-    public void setAlertTime(LocalDateTime alertTime) {
-        this.alertTime = alertTime;
-    }
     @Override
     public String toString(){
         return body;

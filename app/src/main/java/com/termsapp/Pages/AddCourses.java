@@ -8,6 +8,8 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -24,6 +26,7 @@ import java.util.Date;
 import java.util.Locale;
 
 import Database.Repository;
+import entites.CourseClass;
 
 public class AddCourses extends AppCompatActivity {
     int id;
@@ -199,5 +202,26 @@ public class AddCourses extends AppCompatActivity {
         catch (Exception what){
             what.printStackTrace();
         }
+    }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu){
+        getMenuInflater().inflate(R.menu.course_menu, menu);
+
+        return true;
+    }
+    public boolean optionsSelected(MenuItem menuItem){
+        if(menuItem.getItemId() == R.id.assessment){
+            Intent assessmentIntent = new Intent(AddCourses.this, AddAssessments.class);
+            assessmentIntent.putExtra("Course ID", id);
+            startActivity(assessmentIntent);
+            return true;
+        }
+        if(menuItem.getItemId() == R.id.addNote){
+            Intent noteIntent = new Intent(AddCourses.this, NotesPage.class);
+            noteIntent.putExtra("Course ID", id);
+            startActivity(noteIntent);
+            return true;
+        }
+        return true;
     }
 }
