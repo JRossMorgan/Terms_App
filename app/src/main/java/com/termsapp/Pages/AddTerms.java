@@ -15,6 +15,7 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.termsapp.R;
 
@@ -28,6 +29,7 @@ import java.util.Locale;
 
 import Database.Repository;
 import entites.CourseClass;
+import entites.TermClass;
 
 public class AddTerms extends AppCompatActivity {
     int id;
@@ -44,7 +46,7 @@ public class AddTerms extends AppCompatActivity {
     final Calendar termEnd = Calendar.getInstance();
     Button addCourse;
     Button save;
-    Button delete;
+    Button deleteTerm;
 
     private void updateStart(){
         String format = "MM/dd/yyyy";
@@ -189,6 +191,40 @@ public class AddTerms extends AppCompatActivity {
         catch (Exception what){
             what.printStackTrace();
         }
-
+        save = findViewById(R.id.save);
+        save.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                TermClass savedTerm = new TermClass(id, title, start, end);
+                repository.insert(savedTerm);
+                Intent returnToTerms = new Intent(AddTerms.this, Terms.class);
+                startActivity(returnToTerms);
+            }
+        });
+        deleteTerm = findViewById(R.id.deleteButton);
+        deleteTerm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                TermClass currentTerm = null;
+                for(TermClass term : repository.getAllTerms()){
+                    if(term.getTermId() == id){
+                        currentTerm = term;
+                    }
+                }
+                int numCourses = 0;
+                for(CourseClass c : repository.getAllCourses()){
+                    if(c.getTermId() == currentTerm.getTermId()){
+                        numCourses++;
+                    }
+                }
+                if(numCourses == 0){
+                    repository.delete(currentTerm);
+                    Toast.makeText(AddTerms.this, currentTerm.getTermTitle() + " was deleted", Toast.LENGTH_LONG).show();
+                }
+                else{
+                    Toast.makeText(AddTerms.this, "Cannot delete a term with associated courses.", Toast.LENGTH_LONG).show();
+                }
+            }
+        });
     }
 }

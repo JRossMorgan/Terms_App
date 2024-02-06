@@ -2,6 +2,7 @@ package com.termsapp.Pages;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -18,6 +19,7 @@ public class NotesPage extends AppCompatActivity {
     String theNote;
     EditText note;
     Button save;
+    Button cancel;
     int courseId;
     Repository repository;
     @Override
@@ -43,6 +45,16 @@ public class NotesPage extends AppCompatActivity {
                 }
                 newNote = new Notes(noteID, theNote, courseId);
                 repository.insert(newNote);
+                Intent intent = new Intent(NotesPage.this, AddCourses.class);
+                startActivity(intent);
+            }
+        });
+        cancel = findViewById(R.id.onCancel);
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent cancelButton = new Intent(NotesPage.this, AddCourses.class);
+                startActivity(cancelButton);
             }
         });
     }

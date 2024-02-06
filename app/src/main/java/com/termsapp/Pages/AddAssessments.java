@@ -9,10 +9,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.termsapp.R;
 
@@ -24,6 +26,7 @@ import java.util.Date;
 import java.util.Locale;
 
 import Database.Repository;
+import entites.AssessmentClass;
 
 public class AddAssessments extends AppCompatActivity {
     int id;
@@ -38,6 +41,9 @@ public class AddAssessments extends AppCompatActivity {
     int courseId;
     DatePickerDialog.OnDateSetListener date;
     final Calendar calendar = Calendar.getInstance();
+    Button save;
+    Button delete;
+    Button cancel;
 
     private void updateDate(){
         String dateFormat = "MM/dd/yyyy";
@@ -116,5 +122,39 @@ public class AddAssessments extends AppCompatActivity {
         catch (Exception what){
             what.printStackTrace();
         }
+        save = findViewById(R.id.saveAssessment);
+        save.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AssessmentClass createAssessment = new AssessmentClass(id, title, type, end, courseId);
+                repository.insert(createAssessment);
+                Intent savedAssessment = new Intent(AddAssessments.this, AddAssessments.class);
+                startActivity(savedAssessment);
+            }
+        });
+        delete = findViewById(R.id.deleteAssessment);
+        delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                for(AssessmentClass a: repository.getAllAssessments()){
+                    if(a.getAssessmentId() == id){
+                        repository.delete(a);
+                        Intent deletedAssessment = new Intent(AddAssessments.this, AddAssessments.class);
+                        startActivity(deletedAssessment);
+                    }
+                    else{
+                        Toast.makeText(AddAssessments.this, "No such Assessment", Toast.LENGTH_LONG).show();
+                    }
+                }
+            }
+        });
+        cancel = findViewById(R.id.cancelAssessment);
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent cancelAssessment = new Intent(AddAssessments.this, Assessments.class);
+                startActivity(cancelAssessment);
+            }
+        });
     }
 }

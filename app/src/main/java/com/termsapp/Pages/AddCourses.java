@@ -1,5 +1,7 @@
 package com.termsapp.Pages;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.AlarmManager;
@@ -11,9 +13,11 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.RadioButton;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.termsapp.R;
@@ -21,12 +25,19 @@ import com.termsapp.R;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collection;
 import java.util.Date;
+import java.util.Iterator;
+import java.util.List;
+import java.util.ListIterator;
 import java.util.Locale;
 
 import Database.Repository;
+import entites.AssessmentClass;
 import entites.CourseClass;
+import entites.Notes;
 
 public class AddCourses extends AppCompatActivity {
     int id;
@@ -53,6 +64,7 @@ public class AddCourses extends AppCompatActivity {
     DatePickerDialog.OnDateSetListener ending;
     final Calendar startCalendar = Calendar.getInstance();
     final Calendar endCalendar = Calendar.getInstance();
+    Spinner assessmentSpinner = findViewById(R.id.assessmentSpinner);
 
     private void updateStart(){
         String format = "MM/dd/yyyy";
