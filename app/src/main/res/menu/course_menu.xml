@@ -12,4 +12,8 @@
     <item android:title="Save"
         android:id="@+id/save"
         tools:ignore="HardcodedText" />
+    <item android:title="Delete"
+        android:id="@+id/deleteCourse"
+        tools:ignore="HardcodedText"/>
+
 </menu>

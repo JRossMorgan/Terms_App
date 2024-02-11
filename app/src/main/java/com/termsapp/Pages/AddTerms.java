@@ -195,10 +195,18 @@ public class AddTerms extends AppCompatActivity {
         save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                TermClass savedTerm = new TermClass(id, title, start, end);
-                repository.insert(savedTerm);
-                Intent returnToTerms = new Intent(AddTerms.this, Terms.class);
-                startActivity(returnToTerms);
+                if(id == 0) {
+                    TermClass savedTerm = new TermClass(id, title, start, end);
+                    repository.insert(savedTerm);
+                    Intent returnToTerms = new Intent(AddTerms.this, Terms.class);
+                    startActivity(returnToTerms);
+                }
+                else{
+                    TermClass updateTerm = new TermClass(id, title, start, end);
+                    repository.update(updateTerm);
+                    Intent returnToTerms = new Intent(AddTerms.this, Terms.class);
+                    startActivity(returnToTerms);
+                }
             }
         });
         deleteTerm = findViewById(R.id.deleteButton);

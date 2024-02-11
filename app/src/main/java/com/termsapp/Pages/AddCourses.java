@@ -19,6 +19,7 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.termsapp.R;
 
@@ -234,6 +235,48 @@ public class AddCourses extends AppCompatActivity {
             startActivity(noteIntent);
             return true;
         }
-        return true;
+        if(menuItem.getItemId() == R.id.deleteCourse){
+            CourseClass currentCourse = null;
+            for(CourseClass c : repository.getAllCourses()){
+                if(c.getCourseId() == id){
+                    currentCourse = c;
+                }
+            }
+            int numAssessments = 0;
+            int numNotes = 0;
+            for(AssessmentClass a : repository.getAllAssessments()){
+                if(a.getCourseId() == currentCourse.getCourseId()){
+                    numAssessments++;
+                }
+            }
+            for(Notes n : repository.getAllNotes()){
+                if(n.getCourseId() == currentCourse.getCourseId()){
+                    numNotes++;
+                }
+            }
+            if(numAssessments == 0 && numNotes == 0){
+                repository.delete(currentCourse);
+                Toast.makeText(AddCourses.this, currentCourse.getTitle() + " was deleted", Toast.LENGTH_LONG).show();
+            }
+            else{
+                Toast.makeText(AddCourses.this, "Cannot delete courses with associated assessments and notes", Toast.LENGTH_LONG).show();
+            }
+            return true;
+        }
+        if(menuItem.getItemId() == R.id.save){
+            if(id == 0){
+                CourseClass courseClass = new CourseClass(id, title, start, end, status, instructorName, instructorPhone, instructorEmail, termId);
+                repository.insert(courseClass);
+                Intent i =new Intent(AddCourses.this, Courses.class);
+                startActivity(i);
+            }
+            else{
+                CourseClass updateCourse = new CourseClass(id, title, start, end, status, instructorName, instructorPhone, instructorEmail, termId);
+                repository.update(updateCourse);
+                Intent i =new Intent(AddCourses.this, Courses.class);
+                startActivity(i);
+            }
+        }
+        return super.onOptionsItemSelected(menuItem);
     }
 }

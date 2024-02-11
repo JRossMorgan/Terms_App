@@ -20,6 +20,7 @@ public class NotesPage extends AppCompatActivity {
     EditText note;
     Button save;
     Button cancel;
+    Button share;
     int courseId;
     Repository repository;
     @Override
@@ -55,6 +56,19 @@ public class NotesPage extends AppCompatActivity {
             public void onClick(View v) {
                 Intent cancelButton = new Intent(NotesPage.this, AddCourses.class);
                 startActivity(cancelButton);
+            }
+        });
+        share = findViewById(R.id.shareNote);
+        share.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent sendNote = new Intent();
+                sendNote.setAction(Intent.ACTION_SEND);
+                sendNote.putExtra(Intent.EXTRA_TEXT, theNote);
+                sendNote.putExtra(Intent.EXTRA_TITLE, "A Shared Note!");
+                sendNote.setType("text/plain");
+                Intent sending = Intent.createChooser(sendNote, null);
+                startActivity(sending);
             }
         });
     }
