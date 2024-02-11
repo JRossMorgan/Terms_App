@@ -66,6 +66,7 @@ public class AddCourses extends AppCompatActivity {
     final Calendar startCalendar = Calendar.getInstance();
     final Calendar endCalendar = Calendar.getInstance();
     Spinner assessmentSpinner = findViewById(R.id.assessmentSpinner);
+    Spinner spinNote = findViewById(R.id.noteSpinner);
 
     private void updateStart(){
         String format = "MM/dd/yyyy";
@@ -215,6 +216,30 @@ public class AddCourses extends AppCompatActivity {
         catch (Exception what){
             what.printStackTrace();
         }
+        ArrayList<AssessmentClass> assessmentList = new ArrayList<>();
+        for(AssessmentClass a: repository.getAllAssessments()){
+            if(a.getCourseId() == id){
+                assessmentList.add(a);
+            }
+        }
+        ArrayList<String> assessmentName = new ArrayList<>();
+        for(AssessmentClass b: assessmentList){
+            assessmentName.add(b.getTitle());
+        }
+        ArrayAdapter assessAdapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, assessmentName);
+        assessmentSpinner.setAdapter(assessAdapter);
+
+        ArrayList<Notes> noteAdapter = new ArrayList<>();
+        for(Notes note : repository.getAllNotes()){
+            if(note.getCourseId() == id){
+                noteAdapter.add(note);
+            }
+        }
+        ArrayList<String> noteName = new ArrayList<>();
+        for(Notes n : noteAdapter){
+            noteName.add(n.getBody());
+        }
+        ArrayAdapter adaptNotes = new ArrayAdapter(this, android.R.layout.simple_spinner_item, noteName);
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu){
@@ -222,7 +247,7 @@ public class AddCourses extends AppCompatActivity {
 
         return true;
     }
-    public boolean optionsSelected(MenuItem menuItem){
+    public boolean onOptionsItemSelected(MenuItem menuItem){
         if(menuItem.getItemId() == R.id.assessment){
             Intent assessmentIntent = new Intent(AddCourses.this, AddAssessments.class);
             assessmentIntent.putExtra("Course ID", id);
@@ -264,18 +289,30 @@ public class AddCourses extends AppCompatActivity {
             return true;
         }
         if(menuItem.getItemId() == R.id.save){
-            if(id == 0){
-                CourseClass courseClass = new CourseClass(id, title, start, end, status, instructorName, instructorPhone, instructorEmail, termId);
-                repository.insert(courseClass);
-                Intent i =new Intent(AddCourses.this, Courses.class);
-                startActivity(i);
+            int minNotes = 0;
+            for(Notes note : repository.getAllNotes()){
+                if(note.getCourseId() == id){
+                    minNotes++;
+                }
+            }
+            if(minNotes == 0){
+                Toast.makeText(AddCourses.this, "Must add at least one note to the course.", Toast.LENGTH_LONG).show();
             }
             else{
-                CourseClass updateCourse = new CourseClass(id, title, start, end, status, instructorName, instructorPhone, instructorEmail, termId);
-                repository.update(updateCourse);
-                Intent i =new Intent(AddCourses.this, Courses.class);
-                startActivity(i);
+                if(id == 0){
+                    CourseClass courseClass = new CourseClass(id, title, start, end, status, instructorName, instructorPhone, instructorEmail, termId);
+                    repository.insert(courseClass);
+                    Intent i =new Intent(AddCourses.this, Courses.class);
+                    startActivity(i);
+                }
+                else{
+                    CourseClass updateCourse = new CourseClass(id, title, start, end, status, instructorName, instructorPhone, instructorEmail, termId);
+                    repository.update(updateCourse);
+                    Intent i =new Intent(AddCourses.this, Courses.class);
+                    startActivity(i);
+                }
             }
+
         }
         return super.onOptionsItemSelected(menuItem);
     }

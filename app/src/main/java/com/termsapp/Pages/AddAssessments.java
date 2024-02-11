@@ -128,7 +128,7 @@ public class AddAssessments extends AppCompatActivity {
             public void onClick(View v) {
                 AssessmentClass createAssessment = new AssessmentClass(id, title, type, end, courseId);
                 repository.insert(createAssessment);
-                Intent savedAssessment = new Intent(AddAssessments.this, AddAssessments.class);
+                Intent savedAssessment = new Intent(AddAssessments.this, Assessments.class);
                 startActivity(savedAssessment);
             }
         });
@@ -139,7 +139,7 @@ public class AddAssessments extends AppCompatActivity {
                 for(AssessmentClass a: repository.getAllAssessments()){
                     if(a.getAssessmentId() == id){
                         repository.delete(a);
-                        Intent deletedAssessment = new Intent(AddAssessments.this, AddAssessments.class);
+                        Intent deletedAssessment = new Intent(AddAssessments.this, Assessments.class);
                         startActivity(deletedAssessment);
                     }
                     else{
