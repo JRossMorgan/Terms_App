@@ -59,7 +59,7 @@ public class NotesPage extends AppCompatActivity {
         cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent cancelButton = new Intent(NotesPage.this, AddCourses.class);
+                Intent cancelButton = new Intent(NotesPage.this, Courses.class);
                 startActivity(cancelButton);
             }
         });

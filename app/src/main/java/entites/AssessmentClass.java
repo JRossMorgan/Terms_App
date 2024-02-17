@@ -3,6 +3,7 @@ package entites;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+import java.util.Date;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
@@ -12,10 +13,10 @@ public class AssessmentClass {
     private int assessmentId;
     private String title;
     private String type;
-    private LocalDateTime endDate;
+    private Long endDate;
     private int courseId;
 
-    public AssessmentClass(int assessmentId, String title, String type, LocalDateTime endDate, int courseId) {
+    public AssessmentClass(int assessmentId, String title, String type, Long endDate, int courseId) {
         this.assessmentId = assessmentId;
         this.title = title;
         this.type = type;
@@ -47,11 +48,11 @@ public class AssessmentClass {
         this.type = type;
     }
 
-    public LocalDateTime getEndDate() {
+    public Long getEndDate() {
         return endDate;
     }
 
-    public void setEndDate(LocalDateTime endDate) {
+    public void setEndDate(Long endDate) {
         this.endDate = endDate;
     }
 

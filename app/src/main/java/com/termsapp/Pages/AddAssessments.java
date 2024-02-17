@@ -31,7 +31,7 @@ import entites.AssessmentClass;
 public class AddAssessments extends AppCompatActivity {
     int id;
     String title;
-    LocalDateTime end;
+    Long end;
     String type;
     EditText assessmentTitle;
     TextView assessmentDate;
@@ -67,9 +67,8 @@ public class AddAssessments extends AppCompatActivity {
         else if(performance.isSelected()){
             type = "Performance";
         }
-        end = LocalDateTime.parse(getIntent().getStringExtra("End Date"));
         assessmentDate = findViewById(R.id.dateView);
-        assessmentDate.setText(end.toString());
+        assessmentDate.setText(getIntent().getStringExtra("End Date"));
         courseId = getIntent().getIntExtra("Course ID", 0);
 
         String dateFormat = "MM/dd/yyyy";
@@ -126,6 +125,7 @@ public class AddAssessments extends AppCompatActivity {
         save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                end = calendar.getTimeInMillis();
                 AssessmentClass createAssessment = new AssessmentClass(id, title, type, end, courseId);
                 repository.insert(createAssessment);
                 Intent savedAssessment = new Intent(AddAssessments.this, Assessments.class);

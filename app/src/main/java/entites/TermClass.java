@@ -3,6 +3,7 @@ package entites;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+import java.util.Date;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
@@ -11,10 +12,10 @@ public class TermClass {
     @PrimaryKey (autoGenerate = true)
     private int termId;
     private String termTitle;
-    private LocalDate start;
-    private LocalDate  end;
+    private Long start;
+    private Long end;
 
-    public TermClass(int termId, String termTitle,LocalDate start, LocalDate end) {
+    public TermClass(int termId, String termTitle,Long start, Long end) {
         this.termId = termId;
         this.termTitle = termTitle;
         this.start = start;
@@ -37,22 +38,21 @@ public class TermClass {
         this.termId = termId;
     }
 
-    public LocalDate getStart() {
+    public Long getStart() {
         return start;
     }
 
-    public void setStart(LocalDate start) {
+    public void setStart(Long start) {
         this.start = start;
     }
 
-    public LocalDate getEnd() {
+    public Long getEnd() {
         return end;
     }
 
-    public void setEnd(LocalDate end) {
+    public void setEnd(Long end) {
         this.end = end;
     }
-    public ArrayList<CourseClass> associatedCourses;
     @Override
     public String toString(){
         return termTitle;

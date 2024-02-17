@@ -10,6 +10,7 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.format.DateFormat;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -35,9 +36,9 @@ public class AddTerms extends AppCompatActivity {
     int id;
     String title;
     EditText termTitle;
-    LocalDate start;
+    Long start;
     TextView startBox;
-    LocalDate end;
+    Long end;
     TextView endBox;
     Repository repository;
     DatePickerDialog.OnDateSetListener termS;
@@ -67,12 +68,10 @@ public class AddTerms extends AppCompatActivity {
         title = getIntent().getStringExtra("Term Title");
         termTitle = findViewById(R.id.termTitle);
         termTitle.setText(title);
-        start = LocalDate.parse(getIntent().getStringExtra("Start Date"));
         startBox = findViewById(R.id.termStart);
-        startBox.setText(start.toString());
-        end = LocalDate.parse(getIntent().getStringExtra("End Date"));
+        startBox.setText(getIntent().getStringExtra("Start Date"));
         endBox = findViewById(R.id.termEnd);
-        endBox.setText(end.toString());
+        endBox.setText(getIntent().getStringExtra("End Date"));
         String dateFormat = "MM/dd/yyyy";
         SimpleDateFormat sdf = new SimpleDateFormat(dateFormat, Locale.US);
 
@@ -195,6 +194,8 @@ public class AddTerms extends AppCompatActivity {
         save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                start = termStart.getTimeInMillis();
+                end = termEnd.getTimeInMillis();
                 if(id == 0) {
                     TermClass savedTerm = new TermClass(id, title, start, end);
                     repository.insert(savedTerm);

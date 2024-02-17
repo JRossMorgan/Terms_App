@@ -44,9 +44,9 @@ public class AddCourses extends AppCompatActivity {
     int id;
     String title;
     TextView courseTitle;
-    LocalDate start;
+    Long start;
     TextView startDate;
-    LocalDate end;
+    Long end;
     TextView endDate;
     String status;
     RadioButton inProgress;
@@ -87,12 +87,10 @@ public class AddCourses extends AppCompatActivity {
         title = getIntent().getStringExtra("Title");
         courseTitle = findViewById(R.id.courseTitle);
         courseTitle.setText(title);
-        start = LocalDate.parse(getIntent().getStringExtra("Start Date"));
         startDate = findViewById(R.id.startDate);
-        startDate.setText(start.toString());
-        end = LocalDate.parse(getIntent().getStringExtra("End Date"));
+        startDate.setText(getIntent().getStringExtra("Start Date"));
         endDate = findViewById(R.id.endDate);
-        endDate.setText(end.toString());
+        endDate.setText(getIntent().getStringExtra("End Date"));
         termId = getIntent().getIntExtra("Term ID", 0);
         String dateFormat = "MM/dd/yyyy";
         SimpleDateFormat sdf = new SimpleDateFormat(dateFormat, Locale.US);
@@ -289,6 +287,8 @@ public class AddCourses extends AppCompatActivity {
             return true;
         }
         if(menuItem.getItemId() == R.id.save){
+            start = startCalendar.getTimeInMillis();
+            end = endCalendar.getTimeInMillis();
             int minNotes = 0;
             for(Notes note : repository.getAllNotes()){
                 if(note.getCourseId() == id){

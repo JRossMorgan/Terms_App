@@ -5,21 +5,22 @@ import androidx.room.PrimaryKey;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Date;
 
 @Entity (tableName = "courses")
 public class CourseClass {
     @PrimaryKey (autoGenerate = true)
     private int courseId;
     private String title;
-    private LocalDate start;
-    private LocalDate end;
+    private Long start;
+    private Long end;
     private String status;
     private String instructorName;
     private String instructorNumber;
     private String instructorEmail;
     private int termId;
 
-    public CourseClass(int courseId, String title, LocalDate start, LocalDate end, String status, String instructorName, String instructorNumber, String instructorEmail, int termId) {
+    public CourseClass(int courseId, String title, Long start, Long end, String status, String instructorName, String instructorNumber, String instructorEmail, int termId) {
         this.courseId = courseId;
         this.title = title;
         this.start = start;
@@ -47,19 +48,19 @@ public class CourseClass {
         this.title = title;
     }
 
-    public LocalDate getStart() {
+    public Long getStart() {
         return start;
     }
 
-    public void setStart(LocalDate start) {
+    public void setStart(Long start) {
         this.start = start;
     }
 
-    public LocalDate getEnd() {
+    public Long getEnd() {
         return end;
     }
 
-    public void setEnd(LocalDate end) {
+    public void setEnd(Long end) {
         this.end = end;
     }
 
@@ -103,8 +104,6 @@ public class CourseClass {
         this.termId = termId;
     }
 
-    public ArrayList<AssessmentClass> associatedAssessment;
-    public ArrayList<Notes> associatesNotes;
     @Override
     public String toString(){
         return title;
