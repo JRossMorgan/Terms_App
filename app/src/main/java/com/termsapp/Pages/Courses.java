@@ -14,7 +14,6 @@ import com.termsapp.R;
 import java.util.List;
 
 import Database.Repository;
-import entites.AssessmentClass;
 import entites.CourseClass;
 
 public class Courses extends AppCompatActivity {

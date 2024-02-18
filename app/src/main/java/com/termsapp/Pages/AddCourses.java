@@ -1,7 +1,5 @@
 package com.termsapp.Pages;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.AlarmManager;
@@ -25,14 +23,9 @@ import com.termsapp.R;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collection;
 import java.util.Date;
-import java.util.Iterator;
-import java.util.List;
-import java.util.ListIterator;
 import java.util.Locale;
 
 import Database.Repository;
@@ -238,6 +231,7 @@ public class AddCourses extends AppCompatActivity {
             noteName.add(n.getBody());
         }
         ArrayAdapter adaptNotes = new ArrayAdapter(this, android.R.layout.simple_spinner_item, noteName);
+        spinNote.setAdapter(adaptNotes);
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu){
@@ -315,5 +309,34 @@ public class AddCourses extends AppCompatActivity {
 
         }
         return super.onOptionsItemSelected(menuItem);
+    }
+    @Override
+    protected void onResume(){
+        super.onResume();
+        ArrayList<AssessmentClass> assessmentList = new ArrayList<>();
+        for(AssessmentClass a: repository.getAllAssessments()){
+            if(a.getCourseId() == id){
+                assessmentList.add(a);
+            }
+        }
+        ArrayList<String> assessmentName = new ArrayList<>();
+        for(AssessmentClass b: assessmentList){
+            assessmentName.add(b.getTitle());
+        }
+        ArrayAdapter assessAdapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, assessmentName);
+        assessmentSpinner.setAdapter(assessAdapter);
+
+        ArrayList<Notes> noteAdapter = new ArrayList<>();
+        for(Notes note : repository.getAllNotes()){
+            if(note.getCourseId() == id){
+                noteAdapter.add(note);
+            }
+        }
+        ArrayList<String> noteName = new ArrayList<>();
+        for(Notes n : noteAdapter){
+            noteName.add(n.getBody());
+        }
+        ArrayAdapter adaptNotes = new ArrayAdapter(this, android.R.layout.simple_spinner_item, noteName);
+        spinNote.setAdapter(adaptNotes);
     }
 }
