@@ -3,9 +3,11 @@ package entites;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Locale;
 
 @Entity (tableName = "assessments")
 public class AssessmentClass {
@@ -66,5 +68,10 @@ public class AssessmentClass {
     @Override
     public String toString(){
         return title;
+    }
+
+    public String formattedEnd(Long endDate){
+        SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy", Locale.US);
+        return sdf.format(new Date(endDate));
     }
 }

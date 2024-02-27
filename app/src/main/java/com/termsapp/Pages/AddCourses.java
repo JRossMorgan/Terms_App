@@ -76,7 +76,7 @@ public class AddCourses extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_courses);
         repository = new Repository(getApplication());
-        id = getIntent().getIntExtra("Course ID", 1);
+        id = getIntent().getIntExtra("Course ID", 0);
         title = getIntent().getStringExtra("Title");
         courseTitle = findViewById(R.id.courseTitle);
         courseTitle.setText(title);

@@ -55,7 +55,7 @@ public class AddAssessments extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_assessments);
         repository = new Repository(getApplication());
-        id = getIntent().getIntExtra("Assessment ID", 1);
+        id = getIntent().getIntExtra("Assessment ID", 0);
         title = getIntent().getStringExtra("Title");
         assessmentTitle = findViewById(R.id.assessmentTitle);
         assessmentTitle.setText(title);

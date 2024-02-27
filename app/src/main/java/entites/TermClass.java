@@ -3,9 +3,11 @@ package entites;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Locale;
 
 @Entity(tableName = "terms")
 public class TermClass {
@@ -30,17 +32,13 @@ public class TermClass {
         this.termTitle = termTitle;
     }
 
-    public int getTermId() {
-        return termId;
-    }
+    public int getTermId() {return termId;}
 
     public void setTermId(int termId) {
         this.termId = termId;
     }
 
-    public Long getStart() {
-        return start;
-    }
+    public Long getStart() {return start;}
 
     public void setStart(Long start) {
         this.start = start;
@@ -54,7 +52,14 @@ public class TermClass {
         this.end = end;
     }
     @Override
-    public String toString(){
-        return termTitle;
+    public String toString() {return termTitle;}
+
+    public String formattedStart(Long start){
+        SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy", Locale.US);
+        return sdf.format(new Date(start));
+    }
+    public String formattedEnd(Long end){
+        SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy", Locale.US);
+        return sdf.format(new Date(end));
     }
 }

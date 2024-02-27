@@ -15,7 +15,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.termsapp.R;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import entites.TermClass;
 
@@ -41,8 +44,8 @@ public class TermsAdapter extends RecyclerView.Adapter<TermsAdapter.TermsViewHol
                     Intent intent = new Intent(context, AddTerms.class);
                     intent.putExtra("Term ID", current.getTermId());
                     intent.putExtra("Term Title", current.getTermTitle());
-                    intent.putExtra("Start Date", current.getStart());
-                    intent.putExtra("End Date", current.getEnd());
+                    intent.putExtra("Start Date", current.formattedStart(current.getStart()));
+                    intent.putExtra("End Date", current.formattedEnd(current.getEnd()));
                     context.startActivity(intent);
                 }
             });

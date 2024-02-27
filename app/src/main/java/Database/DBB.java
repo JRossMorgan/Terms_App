@@ -27,7 +27,7 @@ public abstract class DBB extends RoomDatabase {
         if (INSTANCE == null){
             synchronized (DBB.class){
                 if(INSTANCE == null){
-                    Room.databaseBuilder(context.getApplicationContext(), DBB.class, "OurDatabase.db").fallbackToDestructiveMigration().build();
+                    INSTANCE = Room.databaseBuilder(context.getApplicationContext(), DBB.class, "OurDatabase.db").fallbackToDestructiveMigration().build();
                 }
             }
         }

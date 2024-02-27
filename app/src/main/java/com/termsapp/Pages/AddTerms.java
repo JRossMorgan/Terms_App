@@ -62,7 +62,7 @@ public class AddTerms extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_terms);
         repository = new Repository(getApplication());
-        id = getIntent().getIntExtra("Term ID", 1);
+        id = getIntent().getIntExtra("Term ID", 0);
         title = getIntent().getStringExtra("Term Title");
         termTitle = findViewById(R.id.termTitle);
         termTitle.setText(title);
@@ -195,13 +195,19 @@ public class AddTerms extends AppCompatActivity {
                 start = termStart.getTimeInMillis();
                 end = termEnd.getTimeInMillis();
                 if(id == 0) {
-                    TermClass savedTerm = new TermClass(id, title, start, end);
-                    repository.insert(savedTerm);
+                    if(repository.getAllTerms().size() == 0){
+                        id = 1;
+                    }
+                    else{
+                        id = repository.getAllTerms().get(repository.getAllTerms().size() -1).getTermId()+1;
+                    }
+                    TermClass termClass = new TermClass(id, termTitle.getText().toString(), start, end);
+                    repository.insert(termClass);
                     Intent returnToTerms = new Intent(AddTerms.this, Terms.class);
                     startActivity(returnToTerms);
                 }
                 else{
-                    TermClass updateTerm = new TermClass(id, title, start, end);
+                    TermClass updateTerm = new TermClass(id, termTitle.getText().toString(), start, end);
                     repository.update(updateTerm);
                     Intent returnToTerms = new Intent(AddTerms.this, Terms.class);
                     startActivity(returnToTerms);
@@ -227,6 +233,8 @@ public class AddTerms extends AppCompatActivity {
                 if(numCourses == 0){
                     repository.delete(currentTerm);
                     Toast.makeText(AddTerms.this, currentTerm.getTermTitle() + " was deleted", Toast.LENGTH_LONG).show();
+                    Intent returnToTerms = new Intent(AddTerms.this, Terms.class);
+                    startActivity(returnToTerms);
                 }
                 else{
                     Toast.makeText(AddTerms.this, "Cannot delete a term with associated courses.", Toast.LENGTH_LONG).show();
