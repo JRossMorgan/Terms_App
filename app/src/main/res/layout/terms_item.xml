@@ -19,7 +19,9 @@
         android:textStyle="bold"
         android:typeface="normal"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout_editor_absoluteX="149dp"
+        tools:layout_editor_absoluteY="196dp" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
