@@ -36,7 +36,7 @@ import entites.Notes;
 public class AddCourses extends AppCompatActivity {
     int id;
     String title;
-    TextView courseTitle;
+    EditText courseTitle;
     Long start;
     TextView startDate;
     Long end;
@@ -47,7 +47,7 @@ public class AddCourses extends AppCompatActivity {
     RadioButton drop;
     RadioButton plan;
     String instructorName;
-    TextView name;
+    EditText name;
     String instructorPhone;
     EditText phone;
     String instructorEmail;
@@ -58,8 +58,8 @@ public class AddCourses extends AppCompatActivity {
     DatePickerDialog.OnDateSetListener ending;
     final Calendar startCalendar = Calendar.getInstance();
     final Calendar endCalendar = Calendar.getInstance();
-    Spinner assessmentSpinner = findViewById(R.id.assessmentSpinner);
-    Spinner spinNote = findViewById(R.id.noteSpinner);
+    Spinner spinAssessment;
+    Spinner spinNote;
 
     private void updateStart(){
         String format = "MM/dd/yyyy";
@@ -176,12 +176,14 @@ public class AddCourses extends AppCompatActivity {
             e.printStackTrace();
         }
         try{
-            long startTrigger = startAlert.getTime();
-            Intent startIntent = new Intent(AddCourses.this, CourseStart.class);
-            startIntent.putExtra("Start Course", courseTitle.getText() + " has started");
-            PendingIntent sendStart = PendingIntent.getBroadcast(AddCourses.this, ++MainActivity.alertCount, startIntent, PendingIntent.FLAG_IMMUTABLE);
-            AlarmManager startAlarm = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-            startAlarm.set(AlarmManager.RTC_WAKEUP, startTrigger, sendStart);
+            if(startAlert != null){
+                long startTrigger = startAlert.getTime();
+                Intent startIntent = new Intent(AddCourses.this, CourseStart.class);
+                startIntent.putExtra("Start Course", courseTitle.getText() + " has started");
+                PendingIntent sendStart = PendingIntent.getBroadcast(AddCourses.this, ++MainActivity.alertCount, startIntent, PendingIntent.FLAG_IMMUTABLE);
+                AlarmManager startAlarm = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+                startAlarm.set(AlarmManager.RTC_WAKEUP, startTrigger, sendStart);
+            }
         }
         catch (Exception exception){
             exception.printStackTrace();
@@ -197,12 +199,14 @@ public class AddCourses extends AppCompatActivity {
             parseException.printStackTrace();
         }
         try{
-            long endTrigger = endAlert.getTime();
-            Intent endIntent = new Intent(AddCourses.this, CourseEnd.class);
-            endIntent.putExtra("End Course", courseTitle.getText() + " has ended.");
-            PendingIntent sendEnd = PendingIntent.getBroadcast(AddCourses.this, ++MainActivity.alertCount, endIntent, PendingIntent.FLAG_IMMUTABLE);
-            AlarmManager endAlarm = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-            endAlarm.set(AlarmManager.RTC_WAKEUP, endTrigger, sendEnd);
+            if(endAlert != null){
+                long endTrigger = endAlert.getTime();
+                Intent endIntent = new Intent(AddCourses.this, CourseEnd.class);
+                endIntent.putExtra("End Course", courseTitle.getText() + " has ended.");
+                PendingIntent sendEnd = PendingIntent.getBroadcast(AddCourses.this, ++MainActivity.alertCount, endIntent, PendingIntent.FLAG_IMMUTABLE);
+                AlarmManager endAlarm = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+                endAlarm.set(AlarmManager.RTC_WAKEUP, endTrigger, sendEnd);
+            }
         }
         catch (Exception what){
             what.printStackTrace();
@@ -218,7 +222,8 @@ public class AddCourses extends AppCompatActivity {
             assessmentName.add(b.getTitle());
         }
         ArrayAdapter assessAdapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, assessmentName);
-        assessmentSpinner.setAdapter(assessAdapter);
+        spinAssessment = findViewById(R.id.assessmentSpinner);
+        spinAssessment.setAdapter(assessAdapter);
 
         ArrayList<Notes> noteAdapter = new ArrayList<>();
         for(Notes note : repository.getAllNotes()){
@@ -231,6 +236,7 @@ public class AddCourses extends AppCompatActivity {
             noteName.add(n.getBody());
         }
         ArrayAdapter adaptNotes = new ArrayAdapter(this, android.R.layout.simple_spinner_item, noteName);
+        spinNote = findViewById(R.id.noteSpinner);
         spinNote.setAdapter(adaptNotes);
     }
     @Override
@@ -262,18 +268,25 @@ public class AddCourses extends AppCompatActivity {
             int numAssessments = 0;
             int numNotes = 0;
             for(AssessmentClass a : repository.getAllAssessments()){
-                if(a.getCourseId() == currentCourse.getCourseId()){
-                    numAssessments++;
+                if(currentCourse != null){
+                    if(a.getCourseId() == currentCourse.getCourseId()){
+                        numAssessments++;
+                    }
                 }
+
             }
             for(Notes n : repository.getAllNotes()){
-                if(n.getCourseId() == currentCourse.getCourseId()){
-                    numNotes++;
+                if(currentCourse != null){
+                    if(n.getCourseId() == currentCourse.getCourseId()){
+                        numNotes++;
+                    }
                 }
             }
             if(numAssessments == 0 && numNotes == 0){
-                repository.delete(currentCourse);
-                Toast.makeText(AddCourses.this, currentCourse.getTitle() + " was deleted", Toast.LENGTH_LONG).show();
+                if(currentCourse != null){
+                    repository.delete(currentCourse);
+                    Toast.makeText(AddCourses.this, currentCourse.getTitle() + " was deleted", Toast.LENGTH_LONG).show();
+                }
             }
             else{
                 Toast.makeText(AddCourses.this, "Cannot delete courses with associated assessments and notes", Toast.LENGTH_LONG).show();
@@ -313,6 +326,7 @@ public class AddCourses extends AppCompatActivity {
     @Override
     protected void onResume(){
         super.onResume();
+        repository = new Repository(getApplication());
         ArrayList<AssessmentClass> assessmentList = new ArrayList<>();
         for(AssessmentClass a: repository.getAllAssessments()){
             if(a.getCourseId() == id){
@@ -324,7 +338,7 @@ public class AddCourses extends AppCompatActivity {
             assessmentName.add(b.getTitle());
         }
         ArrayAdapter assessAdapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, assessmentName);
-        assessmentSpinner.setAdapter(assessAdapter);
+        spinAssessment.setAdapter(assessAdapter);
 
         ArrayList<Notes> noteAdapter = new ArrayList<>();
         for(Notes note : repository.getAllNotes()){

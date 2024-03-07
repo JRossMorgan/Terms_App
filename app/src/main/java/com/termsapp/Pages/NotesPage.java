@@ -27,7 +27,7 @@ public class NotesPage extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_notes);
-        courseId = getIntent().getIntExtra("Course ID", 1);
+        courseId = getIntent().getIntExtra("Course ID", 0);
         note = findViewById(R.id.noteBody);
         theNote = note.getText().toString();
         save = findViewById(R.id.saveNote);
