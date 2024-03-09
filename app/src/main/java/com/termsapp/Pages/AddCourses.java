@@ -227,7 +227,7 @@ public class AddCourses extends AppCompatActivity {
 
         ArrayList<Notes> noteAdapter = new ArrayList<>();
         for(Notes note : repository.getAllNotes()){
-            if(note.getCourseId() == id){
+            if(note.getCourseTitle().equals(title)){
                 noteAdapter.add(note);
             }
         }
@@ -253,10 +253,15 @@ public class AddCourses extends AppCompatActivity {
             return true;
         }
         if(menuItem.getItemId() == R.id.addNote){
-            Intent noteIntent = new Intent(AddCourses.this, NotesPage.class);
-            noteIntent.putExtra("Course ID", id);
-            startActivity(noteIntent);
-            return true;
+            if(title.isEmpty()){
+                Toast.makeText(AddCourses.this, "Please enter a course title", Toast.LENGTH_LONG).show();
+            }
+            else{
+                Intent noteIntent = new Intent(AddCourses.this, NotesPage.class);
+                noteIntent.putExtra("Title", title);
+                startActivity(noteIntent);
+                return true;
+            }
         }
         if(menuItem.getItemId() == R.id.deleteCourse){
             CourseClass currentCourse = null;
@@ -277,7 +282,7 @@ public class AddCourses extends AppCompatActivity {
             }
             for(Notes n : repository.getAllNotes()){
                 if(currentCourse != null){
-                    if(n.getCourseId() == currentCourse.getCourseId()){
+                    if(n.getCourseTitle() == currentCourse.getTitle()){
                         numNotes++;
                     }
                 }
@@ -298,7 +303,7 @@ public class AddCourses extends AppCompatActivity {
             end = endCalendar.getTimeInMillis();
             int minNotes = 0;
             for(Notes note : repository.getAllNotes()){
-                if(note.getCourseId() == id){
+                if(note.getCourseTitle().equals(title)){
                     minNotes++;
                 }
             }
@@ -348,7 +353,7 @@ public class AddCourses extends AppCompatActivity {
 
         ArrayList<Notes> noteAdapter = new ArrayList<>();
         for(Notes note : repository.getAllNotes()){
-            if(note.getCourseId() == id){
+            if(note.getCourseTitle().equals(title)){
                 noteAdapter.add(note);
             }
         }

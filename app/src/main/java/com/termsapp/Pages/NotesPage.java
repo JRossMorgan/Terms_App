@@ -21,13 +21,13 @@ public class NotesPage extends AppCompatActivity {
     Button save;
     Button cancel;
     Button share;
-    int courseId;
+    String courseTitle;
     Repository repository;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_notes);
-        courseId = getIntent().getIntExtra("Course ID", 0);
+        courseTitle = getIntent().getStringExtra("title");
         note = findViewById(R.id.noteBody);
         theNote = note.getText().toString();
         save = findViewById(R.id.saveNote);
@@ -44,7 +44,7 @@ public class NotesPage extends AppCompatActivity {
                             noteID = repository.getAllNotes().get(repository.getAllNotes().size() - 1).getNoteId() + 1;
                         }
                     }
-                    newNote = new Notes(noteID, theNote, courseId);
+                    newNote = new Notes(noteID, theNote, courseTitle);
                     repository.insert(newNote);
                     Intent intent = new Intent(NotesPage.this, AddCourses.class);
                     startActivity(intent);
