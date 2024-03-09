@@ -126,10 +126,24 @@ public class AddAssessments extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 end = calendar.getTimeInMillis();
-                AssessmentClass createAssessment = new AssessmentClass(id, title, type, end, courseId);
-                repository.insert(createAssessment);
-                Intent savedAssessment = new Intent(AddAssessments.this, Assessments.class);
-                startActivity(savedAssessment);
+                if (id == 0){
+                    if(repository.getAllAssessments().size() == 0){
+                        id = 1;
+                    }
+                    else{
+                        id = repository.getAllAssessments().get(repository.getAllAssessments().size() - 1).getAssessmentId() +1;
+                    }
+                    AssessmentClass createAssessment = new AssessmentClass(id, title, type, end, courseId);
+                    repository.insert(createAssessment);
+                    Intent savedAssessment = new Intent(AddAssessments.this, Assessments.class);
+                    startActivity(savedAssessment);
+                }
+                else{
+                    AssessmentClass updateAssessment = new AssessmentClass(id, title, type, end, courseId);
+                    repository.update(updateAssessment);
+                    Intent assessmentUpdated = new Intent(AddAssessments.this, Assessments.class);
+                    startActivity(assessmentUpdated);
+                }
             }
         });
         delete = findViewById(R.id.deleteAssessment);

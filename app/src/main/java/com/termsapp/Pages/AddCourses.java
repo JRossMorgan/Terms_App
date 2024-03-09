@@ -307,6 +307,12 @@ public class AddCourses extends AppCompatActivity {
             }
             else{
                 if(id == 0){
+                    if(repository.getAllCourses().size() ==0){
+                        id = 1;
+                    }
+                    else{
+                        id = repository.getAllCourses().get(repository.getAllCourses().size() -1).getCourseId() +1;
+                    }
                     CourseClass courseClass = new CourseClass(id, title, start, end, status, instructorName, instructorPhone, instructorEmail, termId);
                     repository.insert(courseClass);
                     Intent i =new Intent(AddCourses.this, Courses.class);
