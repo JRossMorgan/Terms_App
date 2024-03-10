@@ -10,20 +10,20 @@ public class Notes {
     @PrimaryKey (autoGenerate = true)
     private int noteId;
     private String body;
-    private String courseTitle;
+    private int courseId;
 
-    public Notes(int noteId, String body, String courseTitle){
+    public Notes(int noteId, String body, int courseId){
         this.noteId = noteId;
         this.body = body;
-        this.courseTitle = courseTitle;
+        this.courseId = courseId;
     }
 
-    public String getCourseTitle() {
-        return courseTitle;
+    public int getCourseId() {
+        return courseId;
     }
 
-    public void setCourseId(String courseTitle) {
-        this.courseTitle = courseTitle;
+    public void setCourseId(int courseId) {
+        this.courseId = courseId;
     }
 
     public int getNoteId() {

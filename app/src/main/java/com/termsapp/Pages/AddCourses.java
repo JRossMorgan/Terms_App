@@ -227,7 +227,7 @@ public class AddCourses extends AppCompatActivity {
 
         ArrayList<Notes> noteAdapter = new ArrayList<>();
         for(Notes note : repository.getAllNotes()){
-            if(note.getCourseTitle().equals(title)){
+            if(note.getCourseId() == id){
                 noteAdapter.add(note);
             }
         }
@@ -247,18 +247,23 @@ public class AddCourses extends AppCompatActivity {
     }
     public boolean onOptionsItemSelected(MenuItem menuItem){
         if(menuItem.getItemId() == R.id.assessment){
-            Intent assessmentIntent = new Intent(AddCourses.this, AddAssessments.class);
-            assessmentIntent.putExtra("Course ID", id);
-            startActivity(assessmentIntent);
-            return true;
+            if(id == 0){
+                Toast.makeText(AddCourses.this, "Please save the course before adding assessments", Toast.LENGTH_LONG).show();
+            }
+            else{
+                Intent assessmentIntent = new Intent(AddCourses.this, AddAssessments.class);
+                assessmentIntent.putExtra("Course ID", id);
+                startActivity(assessmentIntent);
+                return true;
+            }
         }
         if(menuItem.getItemId() == R.id.addNote){
-            if(title.isEmpty()){
-                Toast.makeText(AddCourses.this, "Please enter a course title", Toast.LENGTH_LONG).show();
+            if(id == 0){
+                Toast.makeText(AddCourses.this, "Please save the course before adding notes", Toast.LENGTH_LONG).show();
             }
             else{
                 Intent noteIntent = new Intent(AddCourses.this, NotesPage.class);
-                noteIntent.putExtra("Title", title);
+                noteIntent.putExtra("Course Id", id);
                 startActivity(noteIntent);
                 return true;
             }
@@ -282,7 +287,7 @@ public class AddCourses extends AppCompatActivity {
             }
             for(Notes n : repository.getAllNotes()){
                 if(currentCourse != null){
-                    if(n.getCourseTitle() == currentCourse.getTitle()){
+                    if(n.getCourseId() == currentCourse.getCourseId()){
                         numNotes++;
                     }
                 }
@@ -301,27 +306,17 @@ public class AddCourses extends AppCompatActivity {
         if(menuItem.getItemId() == R.id.save){
             start = startCalendar.getTimeInMillis();
             end = endCalendar.getTimeInMillis();
-            int minNotes = 0;
-            for(Notes note : repository.getAllNotes()){
-                if(note.getCourseTitle().equals(title)){
-                    minNotes++;
+            if(id == 0){
+                if(repository.getAllCourses().size() ==0){
+                    id = 1;
                 }
-            }
-            if(minNotes == 0){
-                Toast.makeText(AddCourses.this, "Must add at least one note to the course.", Toast.LENGTH_LONG).show();
-            }
-            else{
-                if(id == 0){
-                    if(repository.getAllCourses().size() ==0){
-                        id = 1;
-                    }
-                    else{
-                        id = repository.getAllCourses().get(repository.getAllCourses().size() -1).getCourseId() +1;
-                    }
-                    CourseClass courseClass = new CourseClass(id, title, start, end, status, instructorName, instructorPhone, instructorEmail, termId);
-                    repository.insert(courseClass);
-                    Intent i =new Intent(AddCourses.this, Courses.class);
-                    startActivity(i);
+                else{
+                    id = repository.getAllCourses().get(repository.getAllCourses().size() -1).getCourseId() +1;
+                }
+                CourseClass courseClass = new CourseClass(id, title, start, end, status, instructorName, instructorPhone, instructorEmail, termId);
+                repository.insert(courseClass);
+                Intent i =new Intent(AddCourses.this, Courses.class);
+                startActivity(i);
                 }
                 else{
                     CourseClass updateCourse = new CourseClass(id, title, start, end, status, instructorName, instructorPhone, instructorEmail, termId);
@@ -330,8 +325,6 @@ public class AddCourses extends AppCompatActivity {
                     startActivity(i);
                 }
             }
-
-        }
         return super.onOptionsItemSelected(menuItem);
     }
     @Override
@@ -353,7 +346,7 @@ public class AddCourses extends AppCompatActivity {
 
         ArrayList<Notes> noteAdapter = new ArrayList<>();
         for(Notes note : repository.getAllNotes()){
-            if(note.getCourseTitle().equals(title)){
+            if(note.getCourseId() == id){
                 noteAdapter.add(note);
             }
         }
