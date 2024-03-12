@@ -61,11 +61,16 @@ public class AddAssessments extends AppCompatActivity {
         assessmentTitle.setText(title);
         objective = findViewById(R.id.assessmentO);
         performance = findViewById(R.id.assessmentP);
-        if(objective.isSelected()){
-            type = "Objective";
-        }
-        else if(performance.isSelected()){
-            type = "Performance";
+        type = getIntent().getStringExtra("Type");
+        if(type != null){
+            switch (type){
+                case "Objective Assessment":
+                    objective.setChecked(true);
+                    break;
+                case"Performance Assessment":
+                    performance.setChecked(true);
+                    break;
+            }
         }
         assessmentDate = findViewById(R.id.dateView);
         assessmentDate.setText(getIntent().getStringExtra("End Date"));
@@ -118,7 +123,7 @@ public class AddAssessments extends AppCompatActivity {
             AlarmManager alarm = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
             alarm.set(AlarmManager.RTC_WAKEUP, assessmentTrigger, pendingIntent);
         }
-        catch (Exception what){
+        catch (NullPointerException what){
             what.printStackTrace();
         }
         save = findViewById(R.id.saveAssessment);
@@ -126,6 +131,12 @@ public class AddAssessments extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 end = calendar.getTimeInMillis();
+                if(objective.isChecked()){
+                    type = "Objective Assessment";
+                }
+                else if(performance.isChecked()){
+                    type = "Performance Assessment";
+                }
                 if (id == 0){
                     if(repository.getAllAssessments().size() == 0){
                         id = 1;
@@ -133,13 +144,13 @@ public class AddAssessments extends AppCompatActivity {
                     else{
                         id = repository.getAllAssessments().get(repository.getAllAssessments().size() - 1).getAssessmentId() +1;
                     }
-                    AssessmentClass createAssessment = new AssessmentClass(id, title, type, end, courseId);
+                    AssessmentClass createAssessment = new AssessmentClass(id, assessmentTitle.getText().toString(), type, end, courseId);
                     repository.insert(createAssessment);
                     Intent savedAssessment = new Intent(AddAssessments.this, Assessments.class);
                     startActivity(savedAssessment);
                 }
                 else{
-                    AssessmentClass updateAssessment = new AssessmentClass(id, title, type, end, courseId);
+                    AssessmentClass updateAssessment = new AssessmentClass(id, assessmentTitle.getText().toString(), type, end, courseId);
                     repository.update(updateAssessment);
                     Intent assessmentUpdated = new Intent(AddAssessments.this, Assessments.class);
                     startActivity(assessmentUpdated);

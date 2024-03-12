@@ -30,7 +30,7 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseView
 
         public CourseViewHolder(@NonNull View itemView) {
             super(itemView);
-            courseViewItem = itemView.findViewById(R.id.courseView);
+            courseViewItem = itemView.findViewById(R.id.courseViewItem);
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

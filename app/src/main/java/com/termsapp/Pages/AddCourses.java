@@ -139,21 +139,26 @@ public class AddCourses extends AppCompatActivity {
             }
         });
 
+        status = getIntent().getStringExtra("Status");
         inProgress = findViewById(R.id.inProgress);
         complete = findViewById(R.id.completed);
         drop = findViewById(R.id.dropped);
         plan = findViewById(R.id.planned);
-        if(inProgress.isSelected()){
-            status = "In Progress";
-        }
-        else if(complete.isSelected()){
-            status = "Completed";
-        }
-        else if(drop.isSelected()){
-            status = "Dropped";
-        }
-        else if(plan.isSelected()){
-            status = "Plan to take";
+        if(status != null){
+            switch (status) {
+                case "In Progress":
+                    inProgress.setChecked(true);
+                    break;
+                case "Completed":
+                    complete.setChecked(true);
+                    break;
+                case "Dropped":
+                    drop.setChecked(true);
+                    break;
+                case "Plan To Take":
+                    plan.setChecked(true);
+                    break;
+            }
         }
         instructorName = getIntent().getStringExtra("Instructor's Name");
         name = findViewById(R.id.instructorsName);
@@ -306,6 +311,18 @@ public class AddCourses extends AppCompatActivity {
         if(menuItem.getItemId() == R.id.save){
             start = startCalendar.getTimeInMillis();
             end = endCalendar.getTimeInMillis();
+            if(inProgress.isChecked()){
+                status = "In Progress";
+            }
+            else if(complete.isChecked()){
+                status = "Completed";
+            }
+            else if(drop.isChecked()){
+                status = "Dropped";
+            }
+            else if(plan.isChecked()){
+                status = "Plan To Take";
+            }
             if(id == 0){
                 if(repository.getAllCourses().size() ==0){
                     id = 1;
@@ -313,13 +330,13 @@ public class AddCourses extends AppCompatActivity {
                 else{
                     id = repository.getAllCourses().get(repository.getAllCourses().size() -1).getCourseId() +1;
                 }
-                CourseClass courseClass = new CourseClass(id, title, start, end, status, instructorName, instructorPhone, instructorEmail, termId);
+                CourseClass courseClass = new CourseClass(id, courseTitle.getText().toString(), start, end, status, name.getText().toString(), phone.getText().toString(), email.getText().toString(), termId);
                 repository.insert(courseClass);
                 Intent i =new Intent(AddCourses.this, Courses.class);
                 startActivity(i);
                 }
                 else{
-                    CourseClass updateCourse = new CourseClass(id, title, start, end, status, instructorName, instructorPhone, instructorEmail, termId);
+                    CourseClass updateCourse = new CourseClass(id, courseTitle.getText().toString(), start, end, status, name.getText().toString(), phone.getText().toString(), email.getText().toString(), termId);
                     repository.update(updateCourse);
                     Intent i =new Intent(AddCourses.this, Courses.class);
                     startActivity(i);
