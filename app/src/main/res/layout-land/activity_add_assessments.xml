@@ -11,7 +11,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
-        android:layout_marginTop="100dp"
+        android:layout_marginTop="50dp"
         android:text="Assessment Title:"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -22,7 +22,7 @@
         android:layout_width="139dp"
         android:layout_height="48dp"
         android:layout_marginStart="45dp"
-        android:layout_marginTop="100dp"
+        android:layout_marginTop="40dp"
         android:importantForAutofill="no"
         android:inputType="text|textNoSuggestions"
         app:layout_constraintStart_toEndOf="@+id/textView3"
@@ -34,10 +34,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
-        android:layout_marginTop="62dp"
+        android:layout_marginTop="30dp"
         android:text="Assessment End Date:"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView3"
+        app:layout_constraintTop_toBottomOf="@+id/textView10"
         tools:ignore="HardcodedText" />
 
     <RadioButton
@@ -45,7 +45,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="113dp"
-        android:layout_marginTop="100dp"
+        android:layout_marginTop="75dp"
         android:text="Objective Assessment"
         app:layout_constraintStart_toEndOf="@+id/assessmentTitle"
         app:layout_constraintTop_toTopOf="parent"
@@ -55,7 +55,7 @@
         android:id="@+id/assessmentP"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="113dp"
+        android:layout_marginStart="108dp"
         android:layout_marginTop="32dp"
         android:text="Performance Assessment"
         app:layout_constraintStart_toEndOf="@+id/dateView"
@@ -66,20 +66,20 @@
         android:id="@+id/dateView"
         android:layout_width="133dp"
         android:layout_height="22dp"
-        android:layout_marginStart="24dp"
+        android:layout_marginStart="32dp"
         android:layout_marginTop="30dp"
         app:layout_constraintStart_toEndOf="@+id/textView6"
-        app:layout_constraintTop_toBottomOf="@+id/assessmentTitle" />
+        app:layout_constraintTop_toBottomOf="@+id/assessStart" />
 
     <Button
         android:id="@+id/saveAssessment"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="110dp"
-        android:layout_marginTop="67dp"
+        android:layout_marginTop="24dp"
         android:text="Save"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView6"
+        app:layout_constraintTop_toBottomOf="@+id/switch1"
         tools:ignore="HardcodedText" />
 
     <Button
@@ -87,10 +87,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="40dp"
-        android:layout_marginTop="69dp"
+        android:layout_marginTop="24dp"
         android:text="Cancel"
         app:layout_constraintStart_toEndOf="@+id/saveAssessment"
-        app:layout_constraintTop_toBottomOf="@+id/dateView"
+        app:layout_constraintTop_toBottomOf="@+id/switch1"
         tools:ignore="HardcodedText" />
 
     <Button
@@ -98,10 +98,41 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="40dp"
-        android:layout_marginTop="69dp"
+        android:layout_marginTop="24dp"
         android:text="Delete"
         app:layout_constraintStart_toEndOf="@+id/cancelAssessment"
-        app:layout_constraintTop_toBottomOf="@+id/dateView"
+        app:layout_constraintTop_toBottomOf="@+id/switch1"
+        tools:ignore="HardcodedText" />
+
+    <TextView
+        android:id="@+id/textView10"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="45dp"
+        android:text="Assessment Start Date"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView3"
+        tools:ignore="HardcodedText"/>
+
+    <TextView
+        android:id="@+id/assessStart"
+        android:layout_width="138dp"
+        android:layout_height="21dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="28dp"
+        app:layout_constraintStart_toEndOf="@+id/textView10"
+        app:layout_constraintTop_toBottomOf="@+id/assessmentTitle" />
+
+    <com.google.android.material.switchmaterial.SwitchMaterial
+        android:id="@+id/switch1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="24dp"
+        android:text="Allow Notifications"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView6"
         tools:ignore="HardcodedText" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
