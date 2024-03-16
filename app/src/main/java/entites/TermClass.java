@@ -16,12 +16,14 @@ public class TermClass {
     private String termTitle;
     private Long start;
     private Long end;
+    private boolean notify;
 
-    public TermClass(int termId, String termTitle,Long start, Long end) {
+    public TermClass(int termId, String termTitle,Long start, Long end, boolean notify) {
         this.termId = termId;
         this.termTitle = termTitle;
         this.start = start;
         this.end = end;
+        this.notify = notify;
     }
 
     public String getTermTitle() {
@@ -51,6 +53,8 @@ public class TermClass {
     public void setEnd(Long end) {
         this.end = end;
     }
+    public boolean getNotify(){return notify;}
+    public void setNotify(boolean notify){this.notify = notify;}
     @Override
     public String toString() {return termTitle;}
 

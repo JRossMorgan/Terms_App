@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.RadioButton;
@@ -75,7 +76,9 @@ public class AddAssessments extends AppCompatActivity {
         performance = findViewById(R.id.assessmentP);
         allow = findViewById(R.id.switch1);
         notifications = getIntent().getBooleanExtra("Notify", true);
-        allow.setChecked(notifications);
+        allow.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            notifications = isChecked;
+        });
         type = getIntent().getStringExtra("Type");
         if(type != null){
             switch (type){
@@ -205,6 +208,9 @@ public class AddAssessments extends AppCompatActivity {
                 }
                 else if(performance.isChecked()){
                     type = "Performance Assessment";
+                }
+                if(allow.isChecked()){
+                    notifications = true;
                 }
                 if (id == 0){
                     if(repository.getAllAssessments().size() == 0){

@@ -19,6 +19,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.material.switchmaterial.SwitchMaterial;
 import com.termsapp.R;
 
 import java.text.ParseException;
@@ -60,6 +61,8 @@ public class AddCourses extends AppCompatActivity {
     final Calendar endCalendar = Calendar.getInstance();
     Spinner spinAssessment;
     Spinner spinNote;
+    SwitchMaterial notify;
+    boolean notifications;
 
     private void updateStart(){
         String format = "MM/dd/yyyy";
@@ -170,6 +173,12 @@ public class AddCourses extends AppCompatActivity {
         email = findViewById(R.id.editTextEmailAddress);
         email.setText(instructorEmail);
 
+        notify = findViewById(R.id.switch2);
+        notifications = getIntent().getBooleanExtra("Notify", true);
+        notify.setOnCheckedChangeListener(((buttonView, isChecked) -> {
+            notifications = isChecked;
+        }));
+
         String startCourse = startDate.getText().toString();
         String startFormat = "MM/dd/yyyy";
         SimpleDateFormat starting = new SimpleDateFormat(startFormat, Locale.US);
@@ -182,12 +191,14 @@ public class AddCourses extends AppCompatActivity {
         }
         try{
             if(startAlert != null){
-                long startTrigger = startAlert.getTime();
-                Intent startIntent = new Intent(AddCourses.this, CourseStart.class);
-                startIntent.putExtra("Start Course", courseTitle.getText() + " has started");
-                PendingIntent sendStart = PendingIntent.getBroadcast(AddCourses.this, ++MainActivity.alertCount, startIntent, PendingIntent.FLAG_IMMUTABLE);
-                AlarmManager startAlarm = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-                startAlarm.set(AlarmManager.RTC_WAKEUP, startTrigger, sendStart);
+                if(notifications){
+                    long startTrigger = startAlert.getTime();
+                    Intent startIntent = new Intent(AddCourses.this, CourseStart.class);
+                    startIntent.putExtra("Start Course", courseTitle.getText() + " has started");
+                    PendingIntent sendStart = PendingIntent.getBroadcast(AddCourses.this, ++MainActivity.alertCount, startIntent, PendingIntent.FLAG_IMMUTABLE);
+                    AlarmManager startAlarm = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+                    startAlarm.set(AlarmManager.RTC_WAKEUP, startTrigger, sendStart);
+                }
             }
         }
         catch (Exception exception){
@@ -205,12 +216,14 @@ public class AddCourses extends AppCompatActivity {
         }
         try{
             if(endAlert != null){
-                long endTrigger = endAlert.getTime();
-                Intent endIntent = new Intent(AddCourses.this, CourseEnd.class);
-                endIntent.putExtra("End Course", courseTitle.getText() + " has ended.");
-                PendingIntent sendEnd = PendingIntent.getBroadcast(AddCourses.this, ++MainActivity.alertCount, endIntent, PendingIntent.FLAG_IMMUTABLE);
-                AlarmManager endAlarm = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-                endAlarm.set(AlarmManager.RTC_WAKEUP, endTrigger, sendEnd);
+                if(notifications) {
+                    long endTrigger = endAlert.getTime();
+                    Intent endIntent = new Intent(AddCourses.this, CourseEnd.class);
+                    endIntent.putExtra("End Course", courseTitle.getText() + " has ended.");
+                    PendingIntent sendEnd = PendingIntent.getBroadcast(AddCourses.this, ++MainActivity.alertCount, endIntent, PendingIntent.FLAG_IMMUTABLE);
+                    AlarmManager endAlarm = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+                    endAlarm.set(AlarmManager.RTC_WAKEUP, endTrigger, sendEnd);
+                }
             }
         }
         catch (Exception what){
@@ -323,6 +336,9 @@ public class AddCourses extends AppCompatActivity {
             else if(plan.isChecked()){
                 status = "Plan To Take";
             }
+            if(notify.isChecked()){
+                notifications = true;
+            }
             if(id == 0){
                 if(repository.getAllCourses().size() ==0){
                     id = 1;
@@ -330,13 +346,13 @@ public class AddCourses extends AppCompatActivity {
                 else{
                     id = repository.getAllCourses().get(repository.getAllCourses().size() -1).getCourseId() +1;
                 }
-                CourseClass courseClass = new CourseClass(id, courseTitle.getText().toString(), start, end, status, name.getText().toString(), phone.getText().toString(), email.getText().toString(), termId);
+                CourseClass courseClass = new CourseClass(id, courseTitle.getText().toString(), start, end, status, name.getText().toString(), phone.getText().toString(), email.getText().toString(), notifications, termId);
                 repository.insert(courseClass);
                 Intent i =new Intent(AddCourses.this, Courses.class);
                 startActivity(i);
                 }
                 else{
-                    CourseClass updateCourse = new CourseClass(id, courseTitle.getText().toString(), start, end, status, name.getText().toString(), phone.getText().toString(), email.getText().toString(), termId);
+                    CourseClass updateCourse = new CourseClass(id, courseTitle.getText().toString(), start, end, status, name.getText().toString(), phone.getText().toString(), email.getText().toString(), notifications, termId);
                     repository.update(updateCourse);
                     Intent i =new Intent(AddCourses.this, Courses.class);
                     startActivity(i);

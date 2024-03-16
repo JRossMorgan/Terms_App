@@ -205,4 +205,15 @@
         android:layout_marginTop="24dp"
         app:layout_constraintStart_toEndOf="@+id/editTextPhone"
         app:layout_constraintTop_toBottomOf="@+id/assessmentSpinner" />
+
+    <com.google.android.material.switchmaterial.SwitchMaterial
+        android:id="@+id/switch2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="75dp"
+        android:layout_marginTop="17dp"
+        android:text="Allow Notifications"
+        app:layout_constraintStart_toEndOf="@+id/editTextEmailAddress"
+        app:layout_constraintTop_toBottomOf="@+id/noteSpinner"
+        tools:ignore="HardcodedText"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

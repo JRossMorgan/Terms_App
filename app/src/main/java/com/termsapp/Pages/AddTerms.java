@@ -17,6 +17,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.material.switchmaterial.SwitchMaterial;
 import com.termsapp.R;
 
 import java.text.ParseException;
@@ -46,6 +47,8 @@ public class AddTerms extends AppCompatActivity {
     Button addCourse;
     Button save;
     Button deleteTerm;
+    SwitchMaterial allow;
+    boolean notifications;
 
     private void updateStart(){
         String format = "MM/dd/yyyy";
@@ -123,6 +126,11 @@ public class AddTerms extends AppCompatActivity {
                 new DatePickerDialog(AddTerms.this, termE, termEnd.get(Calendar.YEAR), termEnd.get(Calendar.MONTH), termEnd.get(Calendar.DAY_OF_MONTH)).show();
             }
         });
+        allow = findViewById(R.id.switch3);
+        notifications = getIntent().getBooleanExtra("Notify", true);
+        allow.setOnCheckedChangeListener(((buttonView, isChecked) -> {
+            notifications = isChecked;
+        }));
 
         RecyclerView recyclerView = findViewById(R.id.associatedCourses);
         final CourseAdapter courseAdapter = new CourseAdapter(this);
@@ -156,12 +164,14 @@ public class AddTerms extends AppCompatActivity {
             e.printStackTrace();
         }
         try{
-            long startTrigger = startAlert.getTime();
-            Intent intent = new Intent(AddTerms.this, TermStartReceiver.class);
-            intent.putExtra("Term Start", termTitle.getText() + " has started.");
-            PendingIntent sendStart = PendingIntent.getBroadcast(AddTerms.this, ++MainActivity.alertCount, intent, PendingIntent.FLAG_IMMUTABLE);
-            AlarmManager startManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-            startManager.set(AlarmManager.RTC_WAKEUP, startTrigger, sendStart);
+            if(notifications) {
+                long startTrigger = startAlert.getTime();
+                Intent intent = new Intent(AddTerms.this, TermStartReceiver.class);
+                intent.putExtra("Term Start", termTitle.getText() + " has started.");
+                PendingIntent sendStart = PendingIntent.getBroadcast(AddTerms.this, ++MainActivity.alertCount, intent, PendingIntent.FLAG_IMMUTABLE);
+                AlarmManager startManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+                startManager.set(AlarmManager.RTC_WAKEUP, startTrigger, sendStart);
+            }
         }
         catch (Exception e){
             e.printStackTrace();
@@ -177,12 +187,14 @@ public class AddTerms extends AppCompatActivity {
             exception.printStackTrace();
         }
         try{
-            long endTrigger = endAlert.getTime();
-            Intent endIntent = new Intent(AddTerms.this, TermEndReceiver.class);
-            endIntent.putExtra("Term End", termTitle.getText() + " has ended.");
-            PendingIntent sendEnd = PendingIntent.getBroadcast(AddTerms.this, ++MainActivity.alertCount, endIntent, PendingIntent.FLAG_IMMUTABLE);
-            AlarmManager endAlarm = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-            endAlarm.set(AlarmManager.RTC_WAKEUP, endTrigger, sendEnd);
+            if(notifications) {
+                long endTrigger = endAlert.getTime();
+                Intent endIntent = new Intent(AddTerms.this, TermEndReceiver.class);
+                endIntent.putExtra("Term End", termTitle.getText() + " has ended.");
+                PendingIntent sendEnd = PendingIntent.getBroadcast(AddTerms.this, ++MainActivity.alertCount, endIntent, PendingIntent.FLAG_IMMUTABLE);
+                AlarmManager endAlarm = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+                endAlarm.set(AlarmManager.RTC_WAKEUP, endTrigger, sendEnd);
+            }
 
         }
         catch (Exception what){
@@ -194,6 +206,9 @@ public class AddTerms extends AppCompatActivity {
             public void onClick(View v) {
                 start = termStart.getTimeInMillis();
                 end = termEnd.getTimeInMillis();
+                if(allow.isChecked()){
+                    notifications = true;
+                }
                 if(id == 0) {
                     if(repository.getAllTerms().size() == 0){
                         id = 1;
@@ -201,13 +216,13 @@ public class AddTerms extends AppCompatActivity {
                     else{
                         id = repository.getAllTerms().get(repository.getAllTerms().size() -1).getTermId()+1;
                     }
-                    TermClass termClass = new TermClass(id, termTitle.getText().toString(), start, end);
+                    TermClass termClass = new TermClass(id, termTitle.getText().toString(), start, end, notifications);
                     repository.insert(termClass);
                     Intent returnToTerms = new Intent(AddTerms.this, Terms.class);
                     startActivity(returnToTerms);
                 }
                 else{
-                    TermClass updateTerm = new TermClass(id, termTitle.getText().toString(), start, end);
+                    TermClass updateTerm = new TermClass(id, termTitle.getText().toString(), start, end, notifications);
                     repository.update(updateTerm);
                     Intent returnToTerms = new Intent(AddTerms.this, Terms.class);
                     startActivity(returnToTerms);
