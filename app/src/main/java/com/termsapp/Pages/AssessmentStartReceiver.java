@@ -12,23 +12,23 @@ import androidx.core.app.NotificationCompat;
 
 import com.termsapp.R;
 
-public class AssessmentReceiver extends BroadcastReceiver {
+public class AssessmentStartReceiver extends BroadcastReceiver {
 
-    String channelId = "Assessment End";
+    String channelId = "Assessment Start";
     @Override
     public void onReceive(Context context, Intent intent) {
-        Toast.makeText(context, intent.getStringExtra("End Assessment Alert"), Toast.LENGTH_LONG).show();
+        Toast.makeText(context, intent.getStringExtra("Start Assessment Alert"), Toast.LENGTH_LONG).show();
         createNotificationChannel(context, channelId);
         Notification notification = new NotificationCompat.Builder(context, channelId)
                 .setSmallIcon(R.drawable.ic_launcher_foreground)
-                .setContentText(intent.getStringExtra("End Assessment Alert"))
-                .setContentTitle("Assessment End").build();
+                .setContentText(intent.getStringExtra("Start Assessment Alert"))
+                .setContentTitle("Assessment Start").build();
         NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         notificationManager.notify(++MainActivity.alertIds, notification);
     }
     private void createNotificationChannel(Context context, String StartChannel){
-        CharSequence name = "Assessment Ends";
-        String description = "End Assessment Notification.";
+        CharSequence name = "Assessment Starts";
+        String description = "Start Assessment Notification.";
         int importance = NotificationManager.IMPORTANCE_DEFAULT;
         NotificationChannel channel = new NotificationChannel(StartChannel, name, importance);
         channel.setDescription(description);

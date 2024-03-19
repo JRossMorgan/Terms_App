@@ -187,7 +187,7 @@ public class AddAssessments extends AppCompatActivity {
         try{
             if(notifications){
                 long anotherTrigger = anotherAlert.getTime();
-                Intent intent = new Intent(AddAssessments.this, AssessmentReceiver.class);
+                Intent intent = new Intent(AddAssessments.this, AssessmentStartReceiver.class);
                 intent.putExtra("Starting Alert", assessmentTitle.getText() + " has begun.");
                 PendingIntent pendingIntent = PendingIntent.getBroadcast(AddAssessments.this, ++MainActivity.alertCount, intent, PendingIntent.FLAG_IMMUTABLE);
                 AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);

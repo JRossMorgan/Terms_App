@@ -14,11 +14,16 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.TermsApp"
         tools:targetApi="33">
+        <receiver
+            android:name=".Pages.AssessmentStartReceiver"
+            android:enabled="true"
+            android:exported="true"></receiver>
+
         <activity
             android:name=".Pages.NotesPage"
             android:exported="false"
             android:label="Notes"
-            android:parentActivityName=".Pages.AddCourses"/>
+            android:parentActivityName=".Pages.AddCourses" />
 
         <receiver
             android:name=".Pages.AssessmentReceiver"

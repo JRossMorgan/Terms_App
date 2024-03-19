@@ -6,7 +6,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <TextView
-        android:id="@+id/termItem"
+        android:id="@+id/noteItem"
         android:layout_width="405dp"
         android:layout_height="114dp"
         android:layout_margin="2dp"
@@ -23,6 +23,5 @@
         tools:layout_editor_absoluteX="149dp"
         tools:layout_editor_absoluteY="196dp"
         tools:ignore="HardcodedText" />
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>
