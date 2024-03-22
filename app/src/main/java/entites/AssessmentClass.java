@@ -82,4 +82,8 @@ public class AssessmentClass {
         SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy", Locale.US);
         return sdf.format(new Date(endDate));
     }
+    public String formattedStart(Long startDate){
+        SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy", Locale.US);
+        return sdf.format(new Date(startDate));
+    }
 }

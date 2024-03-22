@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -242,6 +243,28 @@ public class AddCourses extends AppCompatActivity {
         ArrayAdapter assessAdapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, assessmentName);
         spinAssessment = findViewById(R.id.assessmentSpinner);
         spinAssessment.setAdapter(assessAdapter);
+        spinAssessment.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                parent.getItemAtPosition(position);
+                final AssessmentClass assessmentClass = repository.getAllAssessments().get(position);
+                Intent intent = new Intent(AddCourses.this, AddAssessments.class);
+                intent.putExtra("Assessment ID", assessmentClass.getAssessmentId());
+                intent.putExtra("Title", assessmentClass.getTitle());
+                intent.putExtra("Type", assessmentClass.getType());
+                intent.putExtra("Start Date", assessmentClass.formattedStart(assessmentClass.getStartDate()));
+                intent.putExtra("End Date", assessmentClass.formattedEnd(assessmentClass.getEndDate()));
+                intent.putExtra("Notify", assessmentClass.getNotify());
+                intent.putExtra("Course ID", assessmentClass.getCourseId());
+                startActivity(intent);
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
 
         ArrayList<Notes> noteAdapter = new ArrayList<>();
         for(Notes note : repository.getAllNotes()){
@@ -256,6 +279,23 @@ public class AddCourses extends AppCompatActivity {
         ArrayAdapter adaptNotes = new ArrayAdapter(this, android.R.layout.simple_spinner_item, noteName);
         spinNote = findViewById(R.id.noteSpinner);
         spinNote.setAdapter(adaptNotes);
+        spinNote.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                parent.getItemAtPosition(position);
+                final Notes note = repository.getAllNotes().get(position);
+                Intent intent = new Intent(AddCourses.this, NotesPage.class);
+                intent.putExtra("Note ID", note.getNoteId());
+                intent.putExtra("Note Body", note.getBody());
+                intent.putExtra("Course ID", note.getCourseId());
+                startActivity(intent);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu){

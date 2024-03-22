@@ -27,10 +27,10 @@ public class NotesPage extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_notes);
-        noteID = 0;
+        noteID = getIntent().getIntExtra("Note ID", 0);
         courseId = getIntent().getIntExtra("Course Id", 0);
         note = findViewById(R.id.noteBody);
-        theNote = note.getText().toString();
+        theNote = getIntent().getStringExtra("Note Body");
         save = findViewById(R.id.saveNote);
 
         save.setOnClickListener(new View.OnClickListener() {

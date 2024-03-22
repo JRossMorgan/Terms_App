@@ -9,6 +9,9 @@
     <item android:title="Add Note"
         android:id="@+id/addNote"
         tools:ignore="HardcodedText" />
+    <item android:title="Share Note"
+        android:id="@+id/shareNote"
+        tools:ignore="HardcodedText" />
     <item android:title="Save"
         android:id="@+id/save"
         tools:ignore="HardcodedText" />
