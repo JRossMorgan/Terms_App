@@ -3,8 +3,6 @@ package entites;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
-import java.time.LocalDateTime;
-
 @Entity (tableName = "notes")
 public class Notes {
     @PrimaryKey (autoGenerate = true)

@@ -1,12 +1,11 @@
 package com.termsapp.Pages;
 
+import android.content.Intent;
+import android.os.Bundle;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-import android.content.Intent;
-import android.os.Bundle;
-import android.view.View;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.termsapp.R;
@@ -24,12 +23,9 @@ public class Courses extends AppCompatActivity {
         setContentView(R.layout.activity_courses);
 
         FloatingActionButton addCourses = findViewById(R.id.addCourses);
-        addCourses.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(Courses.this, AddCourses.class);
-                startActivity(intent);
-            }
+        addCourses.setOnClickListener(v -> {
+            Intent intent = new Intent(Courses.this, AddCourses.class);
+            startActivity(intent);
         });
         Repository repository = new Repository(getApplication());
         List<CourseClass> allCourses = repository.getAllCourses();

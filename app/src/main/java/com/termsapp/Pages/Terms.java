@@ -1,12 +1,11 @@
 package com.termsapp.Pages;
 
+import android.content.Intent;
+import android.os.Bundle;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-import android.content.Intent;
-import android.os.Bundle;
-import android.view.View;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.termsapp.R;
@@ -25,12 +24,9 @@ public class Terms extends AppCompatActivity {
         setContentView(R.layout.activity_terms);
 
         FloatingActionButton addTerms = findViewById(R.id.addTerms);
-        addTerms.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(Terms.this, AddTerms.class);
-                startActivity(intent);
-            }
+        addTerms.setOnClickListener(v -> {
+            Intent intent = new Intent(Terms.this, AddTerms.class);
+            startActivity(intent);
         });
         repository = new Repository(getApplication());
         List<TermClass> allTerms = repository.getAllTerms();

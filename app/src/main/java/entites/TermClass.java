@@ -5,8 +5,6 @@ import androidx.room.PrimaryKey;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.Locale;
 
 @Entity(tableName = "terms")

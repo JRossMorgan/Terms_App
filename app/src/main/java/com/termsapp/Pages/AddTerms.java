@@ -1,21 +1,19 @@
 package com.termsapp.Pages;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.app.AlarmManager;
 import android.app.DatePickerDialog;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
-import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.switchmaterial.SwitchMaterial;
 import com.termsapp.R;
@@ -76,55 +74,43 @@ public class AddTerms extends AppCompatActivity {
         String dateFormat = "MM/dd/yyyy";
         SimpleDateFormat sdf = new SimpleDateFormat(dateFormat, Locale.US);
 
-        termS = new DatePickerDialog.OnDateSetListener() {
-            @Override
-            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                termStart.set(Calendar.YEAR, year);
-                termStart.set(Calendar.MONTH, month);
-                termStart.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-                updateStart();
-            }
+        termS = (view, year, month, dayOfMonth) -> {
+            termStart.set(Calendar.YEAR, year);
+            termStart.set(Calendar.MONTH, month);
+            termStart.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+            updateStart();
         };
-        termE = new DatePickerDialog.OnDateSetListener() {
-            @Override
-            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                termEnd.set(Calendar.YEAR, year);
-                termEnd.set(Calendar.MONTH, month);
-                termEnd.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-                updateEnd();
-            }
+        termE = (view, year, month, dayOfMonth) -> {
+            termEnd.set(Calendar.YEAR, year);
+            termEnd.set(Calendar.MONTH, month);
+            termEnd.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+            updateEnd();
         };
-        startBox.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String info = startBox.getText().toString();
-                if(info.equals("")){
-                    info = "01/01/2024";
-                }
-                try{
-                    termStart.setTime(sdf.parse(info));
-                }
-                catch (ParseException e){
-                    e.printStackTrace();
-                }
-                new DatePickerDialog(AddTerms.this, termS, termStart.get(Calendar.YEAR), termStart.get(Calendar.MONTH), termStart.get(Calendar.DAY_OF_MONTH)).show();
+        startBox.setOnClickListener(v -> {
+            String info = startBox.getText().toString();
+            if(info.equals("")){
+                info = "01/01/2024";
             }
+            try{
+                termStart.setTime(sdf.parse(info));
+            }
+            catch (ParseException e){
+                e.printStackTrace();
+            }
+            new DatePickerDialog(AddTerms.this, termS, termStart.get(Calendar.YEAR), termStart.get(Calendar.MONTH), termStart.get(Calendar.DAY_OF_MONTH)).show();
         });
-        endBox.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String info = endBox.getText().toString();
-                if(info.equals("")){
-                    info = "01/01/2024";
-                }
-                try{
-                    termEnd.setTime(sdf.parse(info));
-                }
-                catch (ParseException e){
-                    e.printStackTrace();
-                }
-                new DatePickerDialog(AddTerms.this, termE, termEnd.get(Calendar.YEAR), termEnd.get(Calendar.MONTH), termEnd.get(Calendar.DAY_OF_MONTH)).show();
+        endBox.setOnClickListener(v -> {
+            String info = endBox.getText().toString();
+            if(info.equals("")){
+                info = "01/01/2024";
             }
+            try{
+                termEnd.setTime(sdf.parse(info));
+            }
+            catch (ParseException e){
+                e.printStackTrace();
+            }
+            new DatePickerDialog(AddTerms.this, termE, termEnd.get(Calendar.YEAR), termEnd.get(Calendar.MONTH), termEnd.get(Calendar.DAY_OF_MONTH)).show();
         });
         allow = findViewById(R.id.switch3);
         notifications = getIntent().getBooleanExtra("Notify", true);
@@ -145,13 +131,10 @@ public class AddTerms extends AppCompatActivity {
         courseAdapter.setCourseClassList(termCourses);
 
         addCourse = findViewById(R.id.addCourse);
-        addCourse.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(AddTerms.this, AddCourses.class);
-                intent.putExtra("Term ID", id);
-                startActivity(intent);
-            }
+        addCourse.setOnClickListener(v -> {
+            Intent intent = new Intent(AddTerms.this, AddCourses.class);
+            intent.putExtra("Term ID", id);
+            startActivity(intent);
         });
         String getAlertDate = startBox.getText().toString();
         String startFormat = "MM/dd/yyyy";
@@ -201,59 +184,53 @@ public class AddTerms extends AppCompatActivity {
             what.printStackTrace();
         }
         save = findViewById(R.id.save);
-        save.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                start = termStart.getTimeInMillis();
-                end = termEnd.getTimeInMillis();
-                if(allow.isChecked()){
-                    notifications = true;
-                }
-                if(id == 0) {
-                    if(repository.getAllTerms().size() == 0){
-                        id = 1;
-                    }
-                    else{
-                        id = repository.getAllTerms().get(repository.getAllTerms().size() -1).getTermId()+1;
-                    }
-                    TermClass termClass = new TermClass(id, termTitle.getText().toString(), start, end, notifications);
-                    repository.insert(termClass);
-                    Intent returnToTerms = new Intent(AddTerms.this, Terms.class);
-                    startActivity(returnToTerms);
+        save.setOnClickListener(v -> {
+            start = termStart.getTimeInMillis();
+            end = termEnd.getTimeInMillis();
+            if(allow.isChecked()){
+                notifications = true;
+            }
+            if(id == 0) {
+                if(repository.getAllTerms().size() == 0){
+                    id = 1;
                 }
                 else{
-                    TermClass updateTerm = new TermClass(id, termTitle.getText().toString(), start, end, notifications);
-                    repository.update(updateTerm);
-                    Intent returnToTerms = new Intent(AddTerms.this, Terms.class);
-                    startActivity(returnToTerms);
+                    id = repository.getAllTerms().get(repository.getAllTerms().size() -1).getTermId()+1;
                 }
+                TermClass termClass = new TermClass(id, termTitle.getText().toString(), start, end, notifications);
+                repository.insert(termClass);
+                Intent returnToTerms = new Intent(AddTerms.this, Terms.class);
+                startActivity(returnToTerms);
+            }
+            else{
+                TermClass updateTerm = new TermClass(id, termTitle.getText().toString(), start, end, notifications);
+                repository.update(updateTerm);
+                Intent returnToTerms = new Intent(AddTerms.this, Terms.class);
+                startActivity(returnToTerms);
             }
         });
         deleteTerm = findViewById(R.id.deleteButton);
-        deleteTerm.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                TermClass currentTerm = null;
-                for(TermClass term : repository.getAllTerms()){
-                    if(term.getTermId() == id){
-                        currentTerm = term;
-                    }
+        deleteTerm.setOnClickListener(v -> {
+            TermClass currentTerm = null;
+            for(TermClass term : repository.getAllTerms()){
+                if(term.getTermId() == id){
+                    currentTerm = term;
                 }
-                int numCourses = 0;
-                for(CourseClass c : repository.getAllCourses()){
-                    if(c.getTermId() == currentTerm.getTermId()){
-                        numCourses++;
-                    }
+            }
+            int numCourses = 0;
+            for(CourseClass c : repository.getAllCourses()){
+                if(c.getTermId() == currentTerm.getTermId()){
+                    numCourses++;
                 }
-                if(numCourses == 0){
-                    repository.delete(currentTerm);
-                    Toast.makeText(AddTerms.this, currentTerm.getTermTitle() + " was deleted", Toast.LENGTH_LONG).show();
-                    Intent returnToTerms = new Intent(AddTerms.this, Terms.class);
-                    startActivity(returnToTerms);
-                }
-                else{
-                    Toast.makeText(AddTerms.this, "Cannot delete a term with associated courses.", Toast.LENGTH_LONG).show();
-                }
+            }
+            if(numCourses == 0){
+                repository.delete(currentTerm);
+                Toast.makeText(AddTerms.this, currentTerm.getTermTitle() + " was deleted", Toast.LENGTH_LONG).show();
+                Intent returnToTerms = new Intent(AddTerms.this, Terms.class);
+                startActivity(returnToTerms);
+            }
+            else{
+                Toast.makeText(AddTerms.this, "Cannot delete a term with associated courses.", Toast.LENGTH_LONG).show();
             }
         });
     }
