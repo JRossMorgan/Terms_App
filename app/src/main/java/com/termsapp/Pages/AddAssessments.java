@@ -73,6 +73,9 @@ public class AddAssessments extends AppCompatActivity {
         allow = findViewById(R.id.switch1);
         notifications = getIntent().getBooleanExtra("Notify", true);
         allow.setOnCheckedChangeListener((buttonView, isChecked) -> notifications = isChecked);
+        if(notifications){
+            allow.setChecked(true);
+        }
         type = getIntent().getStringExtra("Type");
         if(type != null){
             switch (type){

@@ -117,6 +117,9 @@ public class AddTerms extends AppCompatActivity {
         allow.setOnCheckedChangeListener(((buttonView, isChecked) -> {
             notifications = isChecked;
         }));
+        if(notifications){
+            allow.setChecked(true);
+        }
 
         RecyclerView recyclerView = findViewById(R.id.associatedCourses);
         final CourseAdapter courseAdapter = new CourseAdapter(this);

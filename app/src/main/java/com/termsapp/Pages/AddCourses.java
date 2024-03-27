@@ -165,6 +165,9 @@ public class AddCourses extends AppCompatActivity {
         notify.setOnCheckedChangeListener(((buttonView, isChecked) -> {
             notifications = isChecked;
         }));
+        if(notifications){
+            notify.setChecked(true);
+        }
 
         String startCourse = startDate.getText().toString();
         String startFormat = "MM/dd/yyyy";
