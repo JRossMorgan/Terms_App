@@ -134,6 +134,7 @@ public class AddAssessments extends AppCompatActivity {
             catch(ParseException exception){
                 exception.printStackTrace();
             }
+            new DatePickerDialog(AddAssessments.this, starting, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH)).show();
         });
 
         String alertDate = assessmentDate.getText().toString();
@@ -204,14 +205,12 @@ public class AddAssessments extends AppCompatActivity {
                 }
                 AssessmentClass createAssessment = new AssessmentClass(id, assessmentTitle.getText().toString(), type, start, end, notifications, courseId);
                 repository.insert(createAssessment);
-                Intent savedAssessment = new Intent(AddAssessments.this, Assessments.class);
-                startActivity(savedAssessment);
+                finishAfterTransition();
             }
             else{
                 AssessmentClass updateAssessment = new AssessmentClass(id, assessmentTitle.getText().toString(), type, start, end, notifications, courseId);
                 repository.update(updateAssessment);
-                Intent assessmentUpdated = new Intent(AddAssessments.this, Assessments.class);
-                startActivity(assessmentUpdated);
+                finishAfterTransition();
             }
         });
         delete = findViewById(R.id.deleteAssessment);
@@ -219,8 +218,7 @@ public class AddAssessments extends AppCompatActivity {
             for(AssessmentClass a: repository.getAllAssessments()){
                 if(a.getAssessmentId() == id){
                     repository.delete(a);
-                    Intent deletedAssessment = new Intent(AddAssessments.this, Assessments.class);
-                    startActivity(deletedAssessment);
+                    finishAfterTransition();
                 }
                 else{
                     Toast.makeText(AddAssessments.this, "No such Assessment", Toast.LENGTH_LONG).show();
@@ -229,8 +227,7 @@ public class AddAssessments extends AppCompatActivity {
         });
         cancel = findViewById(R.id.cancelAssessment);
         cancel.setOnClickListener(v -> {
-            Intent cancelAssessment = new Intent(AddAssessments.this, Assessments.class);
-            startActivity(cancelAssessment);
+            finishAfterTransition();
         });
     }
 }

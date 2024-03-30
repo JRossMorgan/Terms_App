@@ -1,7 +1,5 @@
 package com.termsapp.Pages;
 
-import static androidx.core.content.ContextCompat.startActivity;
-
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
@@ -15,10 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.termsapp.R;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
 import entites.TermClass;
 
@@ -36,19 +31,16 @@ public class TermsAdapter extends RecyclerView.Adapter<TermsAdapter.TermsViewHol
         public TermsViewHolder(@NonNull View itemView) {
             super(itemView);
             termViewItem = itemView.findViewById(R.id.termItem);
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    int position = getAdapterPosition();
-                    final TermClass current = termClassList.get(position);
-                    Intent intent = new Intent(context, AddTerms.class);
-                    intent.putExtra("Term ID", current.getTermId());
-                    intent.putExtra("Term Title", current.getTermTitle());
-                    intent.putExtra("Start Date", current.formattedStart(current.getStart()));
-                    intent.putExtra("End Date", current.formattedEnd(current.getEnd()));
-                    intent.putExtra("Notify", current.getNotify());
-                    context.startActivity(intent);
-                }
+            itemView.setOnClickListener(v -> {
+                int position = getAdapterPosition();
+                final TermClass current = termClassList.get(position);
+                Intent intent = new Intent(context, AddTerms.class);
+                intent.putExtra("Term ID", current.getTermId());
+                intent.putExtra("Term Title", current.getTermTitle());
+                intent.putExtra("Start Date", current.formattedStart(current.getStart()));
+                intent.putExtra("End Date", current.formattedEnd(current.getEnd()));
+                intent.putExtra("Notify", current.getNotify());
+                context.startActivity(intent);
             });
         }
     }

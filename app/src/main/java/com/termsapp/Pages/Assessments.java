@@ -16,6 +16,7 @@ import Database.Repository;
 import entites.AssessmentClass;
 
 public class Assessments extends AppCompatActivity {
+    private Repository repository;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,7 +28,7 @@ public class Assessments extends AppCompatActivity {
             Intent intent = new Intent(Assessments.this, AddAssessments.class);
             startActivity(intent);
         });
-        Repository repository = new Repository(getApplication());
+        repository = new Repository(getApplication());
         List<AssessmentClass> allAssessments = repository.getAllAssessments();
         RecyclerView rv = findViewById(R.id.assessmentView);
         final AssessmentAdapter assessmentAdapter = new AssessmentAdapter(this);
@@ -38,7 +39,7 @@ public class Assessments extends AppCompatActivity {
     @Override
     protected void onResume(){
         super.onResume();
-        Repository repository = new Repository(getApplication());
+        repository = new Repository(getApplication());
         List<AssessmentClass> allAssessments = repository.getAllAssessments();
         RecyclerView rv = findViewById(R.id.assessmentView);
         final AssessmentAdapter assessmentAdapter = new AssessmentAdapter(this);

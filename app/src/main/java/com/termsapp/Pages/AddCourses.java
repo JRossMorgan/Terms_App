@@ -388,6 +388,7 @@ public class AddCourses extends AppCompatActivity {
                     Intent i =new Intent(AddCourses.this, Courses.class);
                     startActivity(i);
                 }
+
             }
         return super.onOptionsItemSelected(menuItem);
     }

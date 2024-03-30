@@ -34,7 +34,7 @@ public class NotesPage extends AppCompatActivity {
 
         save.setOnClickListener(v -> {
             Notes newNote;
-            if (theNote != null) {
+            if (!theNote.equals("")) {
                 if (noteID == 0) {
                     if (repository.getAllNotes().size() == 0) {
                         noteID = 1;
@@ -44,8 +44,7 @@ public class NotesPage extends AppCompatActivity {
                 }
                 newNote = new Notes(noteID, note.getText().toString(), courseId);
                 repository.insert(newNote);
-                Intent intent = new Intent(NotesPage.this, AddCourses.class);
-                startActivity(intent);
+                finishAfterTransition();
             }
             else{
                 Toast.makeText(NotesPage.this, "Cannot save a note without text.", Toast.LENGTH_LONG).show();

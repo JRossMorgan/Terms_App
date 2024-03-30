@@ -31,24 +31,21 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseView
         public CourseViewHolder(@NonNull View itemView) {
             super(itemView);
             courseViewItem = itemView.findViewById(R.id.courseViewItem);
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    int position = getAdapterPosition();
-                    final CourseClass current = courseClassList.get(position);
-                    Intent intent =new Intent(context, AddCourses.class);
-                    intent.putExtra("Course ID", current.getCourseId());
-                    intent.putExtra("Title", current.getTitle());
-                    intent.putExtra("Start Date", current.formattedStart(current.getStart()));
-                    intent.putExtra("End Date", current.formattedEnd(current.getEnd()));
-                    intent.putExtra("Status", current.getStatus());
-                    intent.putExtra("Instructor's Name", current.getInstructorName());
-                    intent.putExtra("Instructor's Phone Number", current.getInstructorNumber());
-                    intent.putExtra("Instructor's Email", current.getInstructorEmail());
-                    intent.putExtra("Notify", current.getNotifications());
-                    intent.putExtra("Term ID", current.getTermId());
-                    context.startActivity(intent);
-                }
+            itemView.setOnClickListener(v -> {
+                int position = getAdapterPosition();
+                final CourseClass current = courseClassList.get(position);
+                Intent intent =new Intent(context, AddCourses.class);
+                intent.putExtra("Course ID", current.getCourseId());
+                intent.putExtra("Title", current.getTitle());
+                intent.putExtra("Start Date", current.formattedStart(current.getStart()));
+                intent.putExtra("End Date", current.formattedEnd(current.getEnd()));
+                intent.putExtra("Status", current.getStatus());
+                intent.putExtra("Instructor's Name", current.getInstructorName());
+                intent.putExtra("Instructor's Phone Number", current.getInstructorNumber());
+                intent.putExtra("Instructor's Email", current.getInstructorEmail());
+                intent.putExtra("Notify", current.getNotifications());
+                intent.putExtra("Term ID", current.getTermId());
+                context.startActivity(intent);
             });
         }
     }

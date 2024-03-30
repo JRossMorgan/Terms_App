@@ -202,14 +202,12 @@ public class AddTerms extends AppCompatActivity {
                 }
                 TermClass termClass = new TermClass(id, termTitle.getText().toString(), start, end, notifications);
                 repository.insert(termClass);
-                Intent returnToTerms = new Intent(AddTerms.this, Terms.class);
-                startActivity(returnToTerms);
+                finishAfterTransition();
             }
             else{
                 TermClass updateTerm = new TermClass(id, termTitle.getText().toString(), start, end, notifications);
                 repository.update(updateTerm);
-                Intent returnToTerms = new Intent(AddTerms.this, Terms.class);
-                startActivity(returnToTerms);
+                finishAfterTransition();
             }
         });
         deleteTerm = findViewById(R.id.deleteButton);
@@ -229,8 +227,7 @@ public class AddTerms extends AppCompatActivity {
             if(numCourses == 0){
                 repository.delete(currentTerm);
                 Toast.makeText(AddTerms.this, currentTerm.getTermTitle() + " was deleted", Toast.LENGTH_LONG).show();
-                Intent returnToTerms = new Intent(AddTerms.this, Terms.class);
-                startActivity(returnToTerms);
+                finishAfterTransition();
             }
             else{
                 Toast.makeText(AddTerms.this, "Cannot delete a term with associated courses.", Toast.LENGTH_LONG).show();
