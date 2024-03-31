@@ -1,5 +1,6 @@
 package com.termsapp.Pages;
 
+import android.annotation.SuppressLint;
 import android.app.AlarmManager;
 import android.app.DatePickerDialog;
 import android.app.PendingIntent;
@@ -8,7 +9,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
@@ -18,6 +21,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.switchmaterial.SwitchMaterial;
 import com.termsapp.R;
@@ -59,8 +64,6 @@ public class AddCourses extends AppCompatActivity {
     DatePickerDialog.OnDateSetListener ending;
     final Calendar startCalendar = Calendar.getInstance();
     final Calendar endCalendar = Calendar.getInstance();
-    Spinner spinAssessment;
-    Spinner spinNote;
     SwitchMaterial notify;
     boolean notifications;
 
@@ -161,13 +164,37 @@ public class AddCourses extends AppCompatActivity {
         email.setText(instructorEmail);
 
         notify = findViewById(R.id.switch2);
-        notifications = getIntent().getBooleanExtra("Notify", true);
+        notifications = getIntent().getBooleanExtra("Notify", false);
         notify.setOnCheckedChangeListener(((buttonView, isChecked) -> {
             notifications = isChecked;
         }));
         if(notifications){
             notify.setChecked(true);
         }
+
+        RecyclerView recyclerView = findViewById(R.id.associatedAssessments);
+        final AssessmentAdapter assessmentAdapter = new AssessmentAdapter(this);
+        recyclerView.setAdapter(assessmentAdapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        ArrayList<AssessmentClass> courseAssessments = new ArrayList<>();
+        for(AssessmentClass a : repository.getAllAssessments()){
+            if(a.getCourseId() == id){
+                courseAssessments.add(a);
+            }
+        }
+        assessmentAdapter.setAssessmentClassList(courseAssessments);
+
+        RecyclerView rv = findViewById(R.id.associatedNotes);
+        final NoteAdapter noteAdapter = new NoteAdapter(this);
+        rv.setAdapter(noteAdapter);
+        rv.setLayoutManager(new LinearLayoutManager(this));
+        ArrayList<Notes> courseNotes = new ArrayList<>();
+        for(Notes notes : repository.getAllNotes()){
+            if(notes.getCourseId() == id){
+                courseNotes.add(notes);
+            }
+        }
+        noteAdapter.setNotesClassList(courseNotes);
 
         String startCourse = startDate.getText().toString();
         String startFormat = "MM/dd/yyyy";
@@ -219,72 +246,7 @@ public class AddCourses extends AppCompatActivity {
         catch (Exception what){
             what.printStackTrace();
         }
-        ArrayList<AssessmentClass> assessmentList = new ArrayList<>();
-        for(AssessmentClass a: repository.getAllAssessments()){
-            if(a.getCourseId() == id){
-                assessmentList.add(a);
-            }
-        }
-        ArrayList<String> assessmentName = new ArrayList<>();
-        for(AssessmentClass b: assessmentList){
-            assessmentName.add(b.getTitle());
-        }
-        ArrayAdapter assessAdapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, assessmentName);
-        spinAssessment = findViewById(R.id.assessmentSpinner);
-        spinAssessment.setAdapter(assessAdapter);
-        spinAssessment.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                parent.getItemAtPosition(position);
-                final AssessmentClass assessmentClass = repository.getAllAssessments().get(position);
-                Intent intent = new Intent(AddCourses.this, AddAssessments.class);
-                intent.putExtra("Assessment ID", assessmentClass.getAssessmentId());
-                intent.putExtra("Title", assessmentClass.getTitle());
-                intent.putExtra("Type", assessmentClass.getType());
-                intent.putExtra("Start Date", assessmentClass.formattedStart(assessmentClass.getStartDate()));
-                intent.putExtra("End Date", assessmentClass.formattedEnd(assessmentClass.getEndDate()));
-                intent.putExtra("Notify", assessmentClass.getNotify());
-                intent.putExtra("Course ID", assessmentClass.getCourseId());
-                startActivity(intent);
 
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
-
-        ArrayList<Notes> noteAdapter = new ArrayList<>();
-        for(Notes note : repository.getAllNotes()){
-            if(note.getCourseId() == id){
-                noteAdapter.add(note);
-            }
-        }
-        ArrayList<String> noteName = new ArrayList<>();
-        for(Notes n : noteAdapter){
-            noteName.add(n.getBody());
-        }
-        ArrayAdapter adaptNotes = new ArrayAdapter(this, android.R.layout.simple_spinner_item, noteName);
-        spinNote = findViewById(R.id.noteSpinner);
-        spinNote.setAdapter(adaptNotes);
-        spinNote.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                parent.getItemAtPosition(position);
-                final Notes note = repository.getAllNotes().get(position);
-                Intent intent = new Intent(AddCourses.this, NotesPage.class);
-                intent.putExtra("Note ID", note.getNoteId());
-                intent.putExtra("Note Body", note.getBody());
-                intent.putExtra("Course ID", note.getCourseId());
-                startActivity(intent);
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu){
@@ -395,31 +357,6 @@ public class AddCourses extends AppCompatActivity {
     @Override
     protected void onResume(){
         super.onResume();
-        repository = new Repository(getApplication());
-        ArrayList<AssessmentClass> assessmentList = new ArrayList<>();
-        for(AssessmentClass a: repository.getAllAssessments()){
-            if(a.getCourseId() == id){
-                assessmentList.add(a);
-            }
-        }
-        ArrayList<String> assessmentName = new ArrayList<>();
-        for(AssessmentClass b: assessmentList){
-            assessmentName.add(b.getTitle());
-        }
-        ArrayAdapter assessAdapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, assessmentName);
-        spinAssessment.setAdapter(assessAdapter);
 
-        ArrayList<Notes> noteAdapter = new ArrayList<>();
-        for(Notes note : repository.getAllNotes()){
-            if(note.getCourseId() == id){
-                noteAdapter.add(note);
-            }
-        }
-        ArrayList<String> noteName = new ArrayList<>();
-        for(Notes n : noteAdapter){
-            noteName.add(n.getBody());
-        }
-        ArrayAdapter adaptNotes = new ArrayAdapter(this, android.R.layout.simple_spinner_item, noteName);
-        spinNote.setAdapter(adaptNotes);
     }
 }

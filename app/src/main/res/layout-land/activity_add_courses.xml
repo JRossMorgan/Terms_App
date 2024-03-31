@@ -11,7 +11,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="80dp"
+        android:layout_marginTop="40dp"
         android:text="Course Title:"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -33,7 +33,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="33dp"
-        android:layout_marginTop="34dp"
+        android:layout_marginTop="24dp"
         android:text="End Date"
         app:layout_constraintStart_toEndOf="@+id/startDate"
         app:layout_constraintTop_toBottomOf="@+id/courseTitle"
@@ -44,7 +44,7 @@
         android:layout_width="74dp"
         android:layout_height="34dp"
         android:layout_marginStart="20dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="16dp"
         android:ems="10"
         android:importantForAutofill="no"
         app:layout_constraintStart_toEndOf="@+id/textView7"
@@ -56,7 +56,7 @@
         android:layout_width="86dp"
         android:layout_height="34dp"
         android:layout_marginStart="24dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="16dp"
         android:ems="10"
         android:importantForAutofill="no"
         app:layout_constraintStart_toEndOf="@+id/textView9"
@@ -68,7 +68,7 @@
         android:layout_width="210dp"
         android:layout_height="48dp"
         android:layout_marginStart="24dp"
-        android:layout_marginTop="65dp"
+        android:layout_marginTop="32dp"
         android:importantForAutofill="no"
         app:layout_constraintStart_toEndOf="@+id/textView5"
         app:layout_constraintTop_toTopOf="parent"
@@ -79,7 +79,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="75dp"
-        android:layout_marginTop="80dp"
+        android:layout_marginTop="40dp"
         android:text="In Progress"
         app:layout_constraintStart_toEndOf="@+id/courseTitle"
         app:layout_constraintTop_toTopOf="parent"
@@ -90,7 +90,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
-        android:layout_marginTop="80dp"
+        android:layout_marginTop="40dp"
         android:text="Completed"
         app:layout_constraintStart_toEndOf="@+id/inProgress"
         app:layout_constraintTop_toTopOf="parent"
@@ -134,7 +134,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="50dp"
         android:text="Instructor's Phone"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView14"
@@ -188,32 +188,32 @@
         app:layout_constraintTop_toBottomOf="@+id/editTextPhone"
         tools:ignore="LabelFor" />
 
-    <Spinner
-        android:id="@+id/assessmentSpinner"
-        android:layout_width="409dp"
-        android:layout_height="48dp"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="24dp"
-        app:layout_constraintStart_toEndOf="@+id/editTextPhone"
-        app:layout_constraintTop_toBottomOf="@+id/dropped" />
-
-    <Spinner
-        android:id="@+id/noteSpinner"
-        android:layout_width="409dp"
-        android:layout_height="48dp"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="24dp"
-        app:layout_constraintStart_toEndOf="@+id/editTextPhone"
-        app:layout_constraintTop_toBottomOf="@+id/assessmentSpinner" />
-
     <com.google.android.material.switchmaterial.SwitchMaterial
         android:id="@+id/switch2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="75dp"
-        android:layout_marginTop="17dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="24dp"
         android:text="Allow Notifications"
-        app:layout_constraintStart_toEndOf="@+id/editTextEmailAddress"
-        app:layout_constraintTop_toBottomOf="@+id/noteSpinner"
-        tools:ignore="HardcodedText"/>
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editTextEmailAddress"
+        tools:ignore="HardcodedText" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/associatedAssessments"
+        android:layout_width="364dp"
+        android:layout_height="72dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintStart_toEndOf="@+id/editTextPhone"
+        app:layout_constraintTop_toBottomOf="@+id/dropped" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/associatedNotes"
+        android:layout_width="362dp"
+        android:layout_height="72dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintStart_toEndOf="@+id/editTextPhone"
+        app:layout_constraintTop_toBottomOf="@+id/associatedAssessments" />
 </androidx.constraintlayout.widget.ConstraintLayout>

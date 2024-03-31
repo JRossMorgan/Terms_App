@@ -113,7 +113,7 @@ public class AddTerms extends AppCompatActivity {
             new DatePickerDialog(AddTerms.this, termE, termEnd.get(Calendar.YEAR), termEnd.get(Calendar.MONTH), termEnd.get(Calendar.DAY_OF_MONTH)).show();
         });
         allow = findViewById(R.id.switch3);
-        notifications = getIntent().getBooleanExtra("Notify", true);
+        notifications = getIntent().getBooleanExtra("Notify", false);
         allow.setOnCheckedChangeListener(((buttonView, isChecked) -> {
             notifications = isChecked;
         }));

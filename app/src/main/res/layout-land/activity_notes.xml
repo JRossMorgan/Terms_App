@@ -35,7 +35,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="142dp"
-        android:layout_marginTop="75dp"
+        android:layout_marginTop="55dp"
         android:text="Cancel"
         app:layout_constraintStart_toEndOf="@+id/noteBody"
         app:layout_constraintTop_toBottomOf="@+id/saveNote"
@@ -46,9 +46,20 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="142dp"
-        android:layout_marginTop="75dp"
+        android:layout_marginTop="55dp"
         android:text="Share"
         app:layout_constraintStart_toEndOf="@+id/noteBody"
         app:layout_constraintTop_toBottomOf="@+id/onCancel"
         tools:ignore="HardcodedText" />
+
+    <Button
+        android:id="@+id/delete"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="500dp"
+        android:layout_marginTop="55dp"
+        android:text="Delete"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/shareNote"
+        tools:ignore="HardcodedText"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

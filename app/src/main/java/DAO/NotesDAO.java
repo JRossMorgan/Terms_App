@@ -22,6 +22,6 @@ public interface NotesDAO {
     @Delete
     void delete (Notes note);
 
-    @Query("SELECT * FROM notes ORDER BY courseId ASC")
+    @Query("SELECT * FROM notes ORDER BY noteId ASC")
     List<Notes> getAllNotes();
 }

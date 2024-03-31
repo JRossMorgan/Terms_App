@@ -71,7 +71,7 @@ public class AddAssessments extends AppCompatActivity {
         objective = findViewById(R.id.assessmentO);
         performance = findViewById(R.id.assessmentP);
         allow = findViewById(R.id.switch1);
-        notifications = getIntent().getBooleanExtra("Notify", true);
+        notifications = getIntent().getBooleanExtra("Notify", false);
         allow.setOnCheckedChangeListener((buttonView, isChecked) -> notifications = isChecked);
         if(notifications){
             allow.setChecked(true);
@@ -186,6 +186,7 @@ public class AddAssessments extends AppCompatActivity {
 
         save = findViewById(R.id.saveAssessment);
         save.setOnClickListener(v -> {
+            start = anotherCalendar.getTimeInMillis();
             end = calendar.getTimeInMillis();
             if(objective.isChecked()){
                 type = "Objective Assessment";

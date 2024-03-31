@@ -20,34 +20,43 @@ public class NotesPage extends AppCompatActivity {
     Button save;
     Button cancel;
     Button share;
+    Button delete;
     int courseId;
     Repository repository;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_notes);
+        repository = new Repository(getApplication());
         noteID = getIntent().getIntExtra("Note ID", 0);
         courseId = getIntent().getIntExtra("Course Id", 0);
         note = findViewById(R.id.noteBody);
         theNote = getIntent().getStringExtra("Note Body");
+        note.setText(theNote);
         save = findViewById(R.id.saveNote);
 
         save.setOnClickListener(v -> {
             Notes newNote;
-            if (!theNote.equals("")) {
+            if (note.getText().toString().isEmpty()) {
+                Toast.makeText(NotesPage.this, "Cannot save a note without text.", Toast.LENGTH_LONG).show();
+            }
+            else{
                 if (noteID == 0) {
                     if (repository.getAllNotes().size() == 0) {
                         noteID = 1;
-                    } else {
+                    }
+                    else {
                         noteID = repository.getAllNotes().get(repository.getAllNotes().size() - 1).getNoteId() + 1;
                     }
+                    newNote = new Notes(noteID, note.getText().toString(), courseId);
+                    repository.insert(newNote);
+                    finishAfterTransition();
                 }
-                newNote = new Notes(noteID, note.getText().toString(), courseId);
-                repository.insert(newNote);
-                finishAfterTransition();
-            }
-            else{
-                Toast.makeText(NotesPage.this, "Cannot save a note without text.", Toast.LENGTH_LONG).show();
+                else{
+                    newNote = new Notes(noteID, note.getText().toString(), courseId);
+                    repository.update(newNote);
+                    finishAfterTransition();
+                }
             }
         });
         cancel = findViewById(R.id.onCancel);
@@ -68,6 +77,15 @@ public class NotesPage extends AppCompatActivity {
             }
             else{
                 Toast.makeText(NotesPage.this, "Cannot share a note without text.", Toast.LENGTH_LONG).show();
+            }
+        });
+        delete = findViewById(R.id.delete);
+        delete.setOnClickListener(v -> {
+            for(Notes notes : repository.getAllNotes()){
+                if(notes.getNoteId() == noteID){
+                    repository.delete(notes);
+                    Toast.makeText(NotesPage.this, "No such Note.", Toast.LENGTH_LONG).show();
+                }
             }
         });
     }

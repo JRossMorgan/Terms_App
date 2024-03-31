@@ -146,6 +146,28 @@ public class Repository {
             e.printStackTrace();
         }
     }
+    public void update(Notes notes){
+        databaseExecutor.execute(()->{
+            mNotesDAO.update(notes);
+        });
+        try{
+            Thread.sleep(1000);
+        }
+        catch (InterruptedException e){
+            e.printStackTrace();
+        }
+    }
+    public void delete(Notes notes){
+        databaseExecutor.execute(()->{
+            mNotesDAO.delete(notes);
+        });
+        try{
+            Thread.sleep(1000);
+        }
+        catch(InterruptedException e){
+            e.printStackTrace();
+        }
+    }
     public List<TermClass> getAllTerms(){
         databaseExecutor.execute(() -> {
             mAllTerms = mTermsDAO.getAllTerms();
