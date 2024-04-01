@@ -19,9 +19,10 @@ public class CourseClass {
     private String instructorNumber;
     private String instructorEmail;
     private boolean notifications;
+    private boolean endNotification;
     private int termId;
 
-    public CourseClass(int courseId, String title, Long start, Long end, String status, String instructorName, String instructorNumber, String instructorEmail, boolean notifications, int termId) {
+    public CourseClass(int courseId, String title, Long start, Long end, String status, String instructorName, String instructorNumber, String instructorEmail, boolean notifications, boolean endNotification, int termId) {
         this.courseId = courseId;
         this.title = title;
         this.start = start;
@@ -31,6 +32,7 @@ public class CourseClass {
         this.instructorNumber = instructorNumber;
         this.instructorEmail = instructorEmail;
         this.notifications = notifications;
+        this.endNotification = endNotification;
         this.termId = termId;
     }
 
@@ -101,6 +103,8 @@ public class CourseClass {
     public void setNotifications(boolean notifications){
         this.notifications = notifications;
     }
+    public boolean getEndNotification(){return endNotification;}
+    public void setEndNotification(boolean endNotification){this.endNotification = endNotification;}
 
     public int getTermId() {
         return termId;

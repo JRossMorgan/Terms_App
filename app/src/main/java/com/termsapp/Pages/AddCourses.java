@@ -66,6 +66,8 @@ public class AddCourses extends AppCompatActivity {
     final Calendar endCalendar = Calendar.getInstance();
     SwitchMaterial notify;
     boolean notifications;
+    SwitchMaterial notifyToo;
+    boolean endNotify;
 
     private void updateStart(){
         String format = "MM/dd/yyyy";
@@ -167,9 +169,19 @@ public class AddCourses extends AppCompatActivity {
         notifications = getIntent().getBooleanExtra("Notify", false);
         notify.setOnCheckedChangeListener(((buttonView, isChecked) -> {
             notifications = isChecked;
+            Toast.makeText(AddCourses.this, "You enabled start notifications", Toast.LENGTH_LONG).show();
         }));
         if(notifications){
             notify.setChecked(true);
+        }
+        notifyToo = findViewById(R.id.endNotifications);
+        endNotify = getIntent().getBooleanExtra("Notify End", false);
+        notifyToo.setOnCheckedChangeListener(((buttonView, isChecked) -> {
+            endNotify = isChecked;
+            Toast.makeText(AddCourses.this, "You enabled end notifications", Toast.LENGTH_LONG).show();
+        }));
+        if(endNotify){
+            notifyToo.setChecked(true);
         }
 
         RecyclerView recyclerView = findViewById(R.id.associatedAssessments);
@@ -233,7 +245,7 @@ public class AddCourses extends AppCompatActivity {
         }
         try{
             if(endAlert != null){
-                if(notifications) {
+                if(endNotify) {
                     long endTrigger = endAlert.getTime();
                     Intent endIntent = new Intent(AddCourses.this, CourseEnd.class);
                     endIntent.putExtra("End Course", courseTitle.getText() + " has ended.");
@@ -339,13 +351,13 @@ public class AddCourses extends AppCompatActivity {
                 else{
                     id = repository.getAllCourses().get(repository.getAllCourses().size() -1).getCourseId() +1;
                 }
-                CourseClass courseClass = new CourseClass(id, courseTitle.getText().toString(), start, end, status, name.getText().toString(), phone.getText().toString(), email.getText().toString(), notifications, termId);
+                CourseClass courseClass = new CourseClass(id, courseTitle.getText().toString(), start, end, status, name.getText().toString(), phone.getText().toString(), email.getText().toString(), notifications, endNotify, termId);
                 repository.insert(courseClass);
                 Intent i =new Intent(AddCourses.this, Courses.class);
                 startActivity(i);
                 }
                 else{
-                    CourseClass updateCourse = new CourseClass(id, courseTitle.getText().toString(), start, end, status, name.getText().toString(), phone.getText().toString(), email.getText().toString(), notifications, termId);
+                    CourseClass updateCourse = new CourseClass(id, courseTitle.getText().toString(), start, end, status, name.getText().toString(), phone.getText().toString(), email.getText().toString(), notifications, endNotify, termId);
                     repository.update(updateCourse);
                     Intent i =new Intent(AddCourses.this, Courses.class);
                     startActivity(i);
