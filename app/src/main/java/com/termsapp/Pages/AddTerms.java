@@ -47,6 +47,8 @@ public class AddTerms extends AppCompatActivity {
     Button deleteTerm;
     SwitchMaterial allow;
     boolean notifications;
+    SwitchMaterial alsoAllow;
+    boolean endNotifications;
 
     private void updateStart(){
         String format = "MM/dd/yyyy";
@@ -116,9 +118,20 @@ public class AddTerms extends AppCompatActivity {
         notifications = getIntent().getBooleanExtra("Notify", false);
         allow.setOnCheckedChangeListener(((buttonView, isChecked) -> {
             notifications = isChecked;
+            Toast.makeText(AddTerms.this, "You allowed term start notifications.", Toast.LENGTH_LONG).show();
         }));
         if(notifications){
             allow.setChecked(true);
+        }
+
+        alsoAllow = findViewById(R.id.switch4);
+        endNotifications = getIntent().getBooleanExtra("Also Notify", false);
+        allow.setOnCheckedChangeListener(((buttonView, isChecked) -> {
+            endNotifications = isChecked;
+            Toast.makeText(AddTerms.this, "You allowed term end notifications.", Toast.LENGTH_LONG).show();
+        }));
+        if(endNotifications){
+            alsoAllow.setChecked(true);
         }
 
         RecyclerView recyclerView = findViewById(R.id.associatedCourses);
@@ -173,7 +186,7 @@ public class AddTerms extends AppCompatActivity {
             exception.printStackTrace();
         }
         try{
-            if(notifications) {
+            if(endNotifications) {
                 long endTrigger = endAlert.getTime();
                 Intent endIntent = new Intent(AddTerms.this, TermEndReceiver.class);
                 endIntent.putExtra("Term End", termTitle.getText() + " has ended.");
@@ -200,12 +213,12 @@ public class AddTerms extends AppCompatActivity {
                 else{
                     id = repository.getAllTerms().get(repository.getAllTerms().size() -1).getTermId()+1;
                 }
-                TermClass termClass = new TermClass(id, termTitle.getText().toString(), start, end, notifications);
+                TermClass termClass = new TermClass(id, termTitle.getText().toString(), start, end, notifications, endNotifications);
                 repository.insert(termClass);
                 finishAfterTransition();
             }
             else{
-                TermClass updateTerm = new TermClass(id, termTitle.getText().toString(), start, end, notifications);
+                TermClass updateTerm = new TermClass(id, termTitle.getText().toString(), start, end, notifications, endNotifications);
                 repository.update(updateTerm);
                 finishAfterTransition();
             }

@@ -15,13 +15,15 @@ public class TermClass {
     private Long start;
     private Long end;
     private boolean notify;
+    private boolean alsoNotify;
 
-    public TermClass(int termId, String termTitle,Long start, Long end, boolean notify) {
+    public TermClass(int termId, String termTitle,Long start, Long end, boolean notify, boolean alsoNotify) {
         this.termId = termId;
         this.termTitle = termTitle;
         this.start = start;
         this.end = end;
         this.notify = notify;
+        this.alsoNotify = alsoNotify;
     }
 
     public String getTermTitle() {
@@ -53,6 +55,8 @@ public class TermClass {
     }
     public boolean getNotify(){return notify;}
     public void setNotify(boolean notify){this.notify = notify;}
+    public boolean getAlsoNotify(){return alsoNotify;}
+    public void setAlsoNotify(boolean alsoNotify){this.alsoNotify = alsoNotify;}
     @Override
     public String toString() {return termTitle;}
 

@@ -16,7 +16,7 @@ import entites.CourseClass;
 import entites.Notes;
 import entites.TermClass;
 
-@Database(entities = {AssessmentClass.class, CourseClass.class, Notes.class, TermClass.class}, version = 2, exportSchema = false)
+@Database(entities = {AssessmentClass.class, CourseClass.class, Notes.class, TermClass.class}, version = 3, exportSchema = false)
 public abstract class DBB extends RoomDatabase {
     public abstract AssessmentDAO assessmentDAO();
     public abstract CoursesDAO coursesDAO();

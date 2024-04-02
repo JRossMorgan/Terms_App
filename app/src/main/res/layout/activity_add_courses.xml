@@ -202,7 +202,8 @@
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="60dp"
                     android:text="Instructor's Email"
-                    tools:ignore="HardcodedText" />
+                    tools:ignore="HardcodedText"
+                    tools:text="Instructor's Email" />
 
                 <EditText
                     android:id="@+id/editTextEmailAddress"

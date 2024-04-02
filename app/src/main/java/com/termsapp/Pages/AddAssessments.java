@@ -48,6 +48,8 @@ public class AddAssessments extends AppCompatActivity {
     Button cancel;
     SwitchMaterial allow;
     boolean notifications;
+    SwitchMaterial endAllow;
+    boolean endNotification;
 
     private void updateDate(){
         String dateFormat = "MM/dd/yyyy";
@@ -72,10 +74,23 @@ public class AddAssessments extends AppCompatActivity {
         performance = findViewById(R.id.assessmentP);
         allow = findViewById(R.id.switch1);
         notifications = getIntent().getBooleanExtra("Notify", false);
-        allow.setOnCheckedChangeListener((buttonView, isChecked) -> notifications = isChecked);
+        allow.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            notifications = isChecked;
+            Toast.makeText(AddAssessments.this, "You allowed start notifications.", Toast.LENGTH_LONG).show();
+        });
         if(notifications){
             allow.setChecked(true);
         }
+        endAllow = findViewById(R.id.endNotify);
+        endNotification = getIntent().getBooleanExtra("End Notify", false);
+        endAllow.setOnCheckedChangeListener(((buttonView, isChecked) -> {
+            endNotification = isChecked;
+            Toast.makeText(AddAssessments.this, "You allowed end notifications.", Toast.LENGTH_LONG).show();
+        }));
+        if(endNotification){
+            endAllow.setChecked(true);
+        }
+
         type = getIntent().getStringExtra("Type");
         if(type != null){
             switch (type){
@@ -204,12 +219,12 @@ public class AddAssessments extends AppCompatActivity {
                 else{
                     id = repository.getAllAssessments().get(repository.getAllAssessments().size() - 1).getAssessmentId() +1;
                 }
-                AssessmentClass createAssessment = new AssessmentClass(id, assessmentTitle.getText().toString(), type, start, end, notifications, courseId);
+                AssessmentClass createAssessment = new AssessmentClass(id, assessmentTitle.getText().toString(), type, start, end, notifications, endNotification, courseId);
                 repository.insert(createAssessment);
                 finishAfterTransition();
             }
             else{
-                AssessmentClass updateAssessment = new AssessmentClass(id, assessmentTitle.getText().toString(), type, start, end, notifications, courseId);
+                AssessmentClass updateAssessment = new AssessmentClass(id, assessmentTitle.getText().toString(), type, start, end, notifications, endNotification, courseId);
                 repository.update(updateAssessment);
                 finishAfterTransition();
             }

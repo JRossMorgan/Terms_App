@@ -16,15 +16,17 @@ public class AssessmentClass {
     private long startDate;
     private Long endDate;
     private boolean notify;
+    private boolean endNotify;
     private int courseId;
 
-    public AssessmentClass(int assessmentId, String title, String type,Long startDate, Long endDate, boolean notify, int courseId) {
+    public AssessmentClass(int assessmentId, String title, String type,Long startDate, Long endDate, boolean notify, boolean endNotify, int courseId) {
         this.assessmentId = assessmentId;
         this.title = title;
         this.type = type;
         this.startDate = startDate;
         this.endDate = endDate;
         this.notify = notify;
+        this.endNotify = endNotify;
         this.courseId = courseId;
     }
 
@@ -63,6 +65,8 @@ public class AssessmentClass {
     }
     public boolean getNotify(){return notify;}
     public void setNotify(boolean notify){this.notify = notify;}
+    public boolean getEndNotify(){return endNotify;}
+    public void setEndNotify(boolean endNotify){this.endNotify = endNotify;}
 
     public int getCourseId() {
         return courseId;
