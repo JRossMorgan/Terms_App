@@ -61,8 +61,7 @@ public class NotesPage extends AppCompatActivity {
         });
         cancel = findViewById(R.id.onCancel);
         cancel.setOnClickListener(v -> {
-            Intent cancelButton = new Intent(NotesPage.this, AddCourses.class);
-            startActivity(cancelButton);
+            finishAfterTransition();
         });
         share = findViewById(R.id.shareNote);
         share.setOnClickListener(v -> {
@@ -85,6 +84,7 @@ public class NotesPage extends AppCompatActivity {
                 if(notes.getNoteId() == noteID){
                     repository.delete(notes);
                     Toast.makeText(NotesPage.this, "No such Note.", Toast.LENGTH_LONG).show();
+                    finishAfterTransition();
                 }
             }
         });

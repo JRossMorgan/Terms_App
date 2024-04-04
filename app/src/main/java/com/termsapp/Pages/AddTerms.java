@@ -247,4 +247,21 @@ public class AddTerms extends AppCompatActivity {
             }
         });
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        repository = new Repository(getApplication());
+        RecyclerView recyclerView = findViewById(R.id.associatedCourses);
+        final CourseAdapter courseAdapter = new CourseAdapter(this);
+        recyclerView.setAdapter(courseAdapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        ArrayList<CourseClass> termCourses = new ArrayList<>();
+        for (CourseClass c: repository.getAllCourses()){
+            if(c.getTermId() == id){
+                termCourses.add(c);
+            }
+        }
+        courseAdapter.setCourseClassList(termCourses);
+    }
 }

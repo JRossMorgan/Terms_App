@@ -9,14 +9,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.MotionEvent;
-import android.view.View;
-import android.widget.Adapter;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.RadioButton;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -324,8 +318,7 @@ public class AddCourses extends AppCompatActivity {
                 if(currentCourse != null){
                     repository.delete(currentCourse);
                     Toast.makeText(AddCourses.this, currentCourse.getTitle() + " was deleted", Toast.LENGTH_LONG).show();
-                    Intent backToCourses = new Intent(AddCourses.this, Courses.class);
-                    startActivity(backToCourses);
+                    finishAfterTransition();
                 }
             }
             else{
@@ -360,14 +353,12 @@ public class AddCourses extends AppCompatActivity {
                 }
                 CourseClass courseClass = new CourseClass(id, courseTitle.getText().toString(), start, end, status, name.getText().toString(), phone.getText().toString(), email.getText().toString(), notifications, endNotify, termId);
                 repository.insert(courseClass);
-                Intent i =new Intent(AddCourses.this, Courses.class);
-                startActivity(i);
+                finishAfterTransition();
                 }
                 else{
                     CourseClass updateCourse = new CourseClass(id, courseTitle.getText().toString(), start, end, status, name.getText().toString(), phone.getText().toString(), email.getText().toString(), notifications, endNotify, termId);
                     repository.update(updateCourse);
-                    Intent i =new Intent(AddCourses.this, Courses.class);
-                    startActivity(i);
+                    finishAfterTransition();
                 }
 
             }
@@ -376,6 +367,29 @@ public class AddCourses extends AppCompatActivity {
     @Override
     protected void onResume(){
         super.onResume();
+        repository = new Repository(getApplication());
+        RecyclerView recyclerView = findViewById(R.id.associatedAssessments);
+        final AssessmentAdapter assessmentAdapter = new AssessmentAdapter(this);
+        recyclerView.setAdapter(assessmentAdapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        ArrayList<AssessmentClass> courseAssessments = new ArrayList<>();
+        for(AssessmentClass a : repository.getAllAssessments()){
+            if(a.getCourseId() == id){
+                courseAssessments.add(a);
+            }
+        }
+        assessmentAdapter.setAssessmentClassList(courseAssessments);
 
+        RecyclerView rv = findViewById(R.id.associatedNotes);
+        final NoteAdapter noteAdapter = new NoteAdapter(this);
+        rv.setAdapter(noteAdapter);
+        rv.setLayoutManager(new LinearLayoutManager(this));
+        ArrayList<Notes> courseNotes = new ArrayList<>();
+        for(Notes notes : repository.getAllNotes()){
+            if(notes.getCourseId() == id){
+                courseNotes.add(notes);
+            }
+        }
+        noteAdapter.setNotesClassList(courseNotes);
     }
 }
