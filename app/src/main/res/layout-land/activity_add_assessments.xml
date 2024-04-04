@@ -75,33 +75,33 @@
         android:id="@+id/saveAssessment"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="50dp"
+        android:layout_marginStart="40dp"
         android:layout_marginTop="32dp"
         android:text="Save"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/endNotify"
+        app:layout_constraintStart_toEndOf="@+id/assessmentO"
+        app:layout_constraintTop_toTopOf="parent"
         tools:ignore="HardcodedText" />
 
     <Button
         android:id="@+id/cancelAssessment"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="50dp"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="32dp"
         android:text="Cancel"
-        app:layout_constraintStart_toEndOf="@+id/saveAssessment"
-        app:layout_constraintTop_toBottomOf="@+id/endNotify"
+        app:layout_constraintStart_toEndOf="@+id/assessmentP"
+        app:layout_constraintTop_toBottomOf="@+id/saveAssessment"
         tools:ignore="HardcodedText" />
 
     <Button
         android:id="@+id/deleteAssessment"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="50dp"
+        android:layout_marginStart="24dp"
         android:layout_marginTop="32dp"
         android:text="Delete"
-        app:layout_constraintStart_toEndOf="@+id/cancelAssessment"
-        app:layout_constraintTop_toBottomOf="@+id/endNotify"
+        app:layout_constraintStart_toEndOf="@+id/switch1"
+        app:layout_constraintTop_toBottomOf="@+id/cancelAssessment"
         tools:ignore="HardcodedText" />
 
     <TextView

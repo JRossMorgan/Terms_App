@@ -68,6 +68,8 @@ public class AddCourses extends AppCompatActivity {
     boolean notifications;
     SwitchMaterial notifyToo;
     boolean endNotify;
+    TextView phoneLabel;
+    TextView emailLabel;
 
     private void updateStart(){
         String format = "MM/dd/yyyy";
@@ -79,6 +81,7 @@ public class AddCourses extends AppCompatActivity {
         SimpleDateFormat sdf = new SimpleDateFormat(format, Locale.US);
         endDate.setText(sdf.format(endCalendar.getTime()));
     }
+    @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -183,6 +186,10 @@ public class AddCourses extends AppCompatActivity {
         if(endNotify){
             notifyToo.setChecked(true);
         }
+        phoneLabel = findViewById(R.id.textView15);
+        phoneLabel.setText("Instructor's Phone");
+        emailLabel = findViewById(R.id.textView16);
+        emailLabel.setText("Instructor's Email");
 
         RecyclerView recyclerView = findViewById(R.id.associatedAssessments);
         final AssessmentAdapter assessmentAdapter = new AssessmentAdapter(this);

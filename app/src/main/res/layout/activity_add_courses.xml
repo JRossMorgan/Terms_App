@@ -8,8 +8,8 @@
 
     <ScrollView
         android:id="@+id/scrollView2"
-        android:layout_width="402dp"
-        android:layout_height="443dp"
+        android:layout_width="406dp"
+        android:layout_height="388dp"
         android:layout_marginStart="1dp"
         android:layout_marginTop="1dp"
         app:layout_constraintStart_toStartOf="parent"
@@ -220,17 +220,6 @@
 
     </ScrollView>
 
-    <com.google.android.material.switchmaterial.SwitchMaterial
-        android:id="@+id/switch2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="125dp"
-        android:layout_marginTop="32dp"
-        android:text="Allow Start Notifications"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/associatedNotes"
-        tools:ignore="HardcodedText" />
-
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/associatedAssessments"
         android:layout_width="403dp"
@@ -249,14 +238,41 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/associatedAssessments" />
 
-    <com.google.android.material.switchmaterial.SwitchMaterial
-        android:id="@+id/endNotifications"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="150dp"
-        android:layout_marginTop="24dp"
-        android:text="Allow End Notifications"
+    <ScrollView
+        android:layout_width="403dp"
+        android:layout_height="94dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="8dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/switch2"
-        tools:ignore="HardcodedText" />
+        app:layout_constraintTop_toBottomOf="@+id/associatedNotes">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+
+            <com.google.android.material.switchmaterial.SwitchMaterial
+                android:id="@+id/switch2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="125dp"
+                android:layout_marginTop="32dp"
+                android:text="Allow Start Notifications"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/associatedNotes"
+                tools:ignore="HardcodedText" />
+
+            <com.google.android.material.switchmaterial.SwitchMaterial
+                android:id="@+id/endNotifications"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="150dp"
+                android:layout_marginTop="24dp"
+                android:text="Allow End Notifications"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/switch2"
+                tools:ignore="HardcodedText" />
+        </LinearLayout>
+    </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>
